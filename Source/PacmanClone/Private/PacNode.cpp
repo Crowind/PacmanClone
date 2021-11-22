@@ -36,8 +36,6 @@ void APacNode::Tick(float DeltaSeconds)
 		{
 		case Down:
 			{
-				
-				GEngine->AddOnScreenDebugMessage(-1,5,FColor::Orange,TEXT("Down"));
 				if(BottomLink)
 				{
 					CurrentlyHandledPacPawns.Remove(PacMazePawn);
@@ -47,8 +45,6 @@ void APacNode::Tick(float DeltaSeconds)
 			}
 		case Up:
 			{
-				GEngine->AddOnScreenDebugMessage(-1,5,FColor::Orange,TEXT("Up"));
-
 				if(UpLink)
 				{
 					CurrentlyHandledPacPawns.Remove(PacMazePawn);
@@ -58,8 +54,6 @@ void APacNode::Tick(float DeltaSeconds)
 			}
 		case Left:
 			{
-				GEngine->AddOnScreenDebugMessage(-1,5,FColor::Orange,TEXT("Left"));
-
 				if(Left)
 				{
 					CurrentlyHandledPacPawns.Remove(PacMazePawn);
@@ -69,8 +63,6 @@ void APacNode::Tick(float DeltaSeconds)
 			}
 		case Right:
 			{
-				GEngine->AddOnScreenDebugMessage(-1,5,FColor::Orange,TEXT("Right"));
-
 				if(RightLink)
 				{
 					CurrentlyHandledPacPawns.Remove(PacMazePawn);

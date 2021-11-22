@@ -125,6 +125,7 @@ TEnumAsByte<EMazeDirection> Opposite(const TEnumAsByte<EMazeDirection>& Directio
 
 void APacLink::Assign(APacMazePawn* PacMazePawn, EMazeDirection entranceDirection)
 {
+	Super::Assign(PacMazePawn);
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
 
 	TArray<TEnumAsByte<EMazeDirection>> keys;
