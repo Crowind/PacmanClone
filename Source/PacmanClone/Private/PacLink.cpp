@@ -75,6 +75,8 @@ void APacLink::BeginPlay()
 void APacLink::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+
+	MovePawns();
 }
 
 void APacLink::DrawGizmos()
@@ -123,7 +125,7 @@ TEnumAsByte<EMazeDirection> Opposite(const TEnumAsByte<EMazeDirection>& Directio
 	}
 }
 
-void APacLink::Assign(APacMazePawn* PacMazePawn, EMazeDirection entranceDirection)
+void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection)
 {
 	Super::Assign(PacMazePawn);
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
@@ -131,15 +133,9 @@ void APacLink::Assign(APacMazePawn* PacMazePawn, EMazeDirection entranceDirectio
 	TArray<TEnumAsByte<EMazeDirection>> keys;
 	mapping.GetKeys(keys);
 
-	for (auto Key : keys)
-	{
-		GEngine->AddOnScreenDebugMessage(-1,4,FColor::Red, UEnum::GetValueAsString(Key.GetValue()));
-		
-	}
-
-	// const FVector Entrance = mapping[Opposite(entranceDirection)]->GetTransform().GetLocation(); 
+	const FVector Entrance = mapping[Opposite(entranceDirection)]->GetTransform().GetLocation(); 
 	//
-	// PacMazePawn->TeleportTo(Entrance,FRotator::ZeroRotator);
+	PacMazePawn->TeleportTo(Entrance,FRotator::ZeroRotator);
 };
 
 void APacLink::MovePawns()
@@ -157,10 +153,14 @@ void APacLink::MovePawns()
 		TEnumAsByte<EMazeDirection> oppositeDirection = Opposite(movementDirection);
 		
 		FVector pawnLocation = PacMazePawn->GetTransform().GetLocation();
-		
-		auto tvalue = InverseLerp(mapping[oppositeDirection]->GetTransform().GetLocation(),mapping[movementDirection]->GetTransform().GetLocation(),pawnLocation);
 
-		if(tvalue >= 1)
+		const float TValue = InverseLerp(mapping[movementDirection]->GetTransform().GetLocation(),
+		                                 mapping[oppositeDirection]->GetTransform().GetLocation(), pawnLocation);
+
+
+		GEngine->AddOnScreenDebugMessage(-1,4,FColor::Red, FString::SanitizeFloat(TValue));
+		
+		if(TValue >= 1)
 		{
 			CurrentlyHandledPacPawns.Remove(PacMazePawn);
 			mapping[movementDirection]->Assign(PacMazePawn);

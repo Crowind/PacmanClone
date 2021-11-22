@@ -34,7 +34,7 @@ public:
 
 	virtual void DrawGizmos() override;
 
-	virtual void Assign(APacMazePawn* PacMazePawn, EMazeDirection entranceDirection);
+	virtual void Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection);
 
 	UFUNCTION(BlueprintCallable)
 	virtual void TryAttach(APacMazeZone* NewHead);
