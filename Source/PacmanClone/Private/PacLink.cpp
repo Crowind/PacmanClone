@@ -30,19 +30,19 @@ void APacLink::BeginPlay()
 		{
 			if(Node1->BottomLink == this)
 			{
-				mapping.Add(Down,Head1);
+				mapping.Add(Up,Head1);
 			}
 			else if(Node1->LeftLink == this)
 			{
-				mapping.Add(Left,Head1);
+				mapping.Add(Right,Head1);
 			}
 			else if(Node1->UpLink == this)
 			{
-				mapping.Add(Up,Head1);
+				mapping.Add(Down,Head1);
 			}
 			else if(Node1->RightLink == this)
 			{
-				mapping.Add(Right,Head1);
+				mapping.Add(Left,Head1);
 			}
 		}
 	}
@@ -53,19 +53,19 @@ void APacLink::BeginPlay()
 		{
 			if(Node2->BottomLink == this)
 			{
-				mapping.Add(Down,Head2);
+				mapping.Add(Up,Head2);
 			}
 			else if(Node2->LeftLink == this)
 			{
-				mapping.Add(Left,Head2);
+				mapping.Add(Right,Head2);
 			}
 			else if(Node2->UpLink == this)
 			{
-				mapping.Add(Up,Head2);
+				mapping.Add(Down,Head2);
 			}
 			else if(Node2->RightLink == this)
 			{
-				mapping.Add(Right,Head2);
+				mapping.Add(Left,Head2);
 			}
 		}
 	}
@@ -127,7 +127,6 @@ TEnumAsByte<EMazeDirection> Opposite(const TEnumAsByte<EMazeDirection>& Directio
 
 void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection)
 {
-	Super::Assign(PacMazePawn);
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
 
 	TArray<TEnumAsByte<EMazeDirection>> keys;
@@ -149,13 +148,13 @@ void APacLink::MovePawns()
 			PacMazePawn->SetMovementDirection(DisplaydDir);
 		}
 
-		TEnumAsByte<EMazeDirection> movementDirection = PacMazePawn->GetMovementDirection();
-		TEnumAsByte<EMazeDirection> oppositeDirection = Opposite(movementDirection);
-		
-		FVector pawnLocation = PacMazePawn->GetTransform().GetLocation();
+		TEnumAsByte<EMazeDirection> MovementDirection = PacMazePawn->GetMovementDirection();
+		const TEnumAsByte<EMazeDirection> OppositeDirection = Opposite(MovementDirection);
 
-		const float TValue = InverseLerp(mapping[movementDirection]->GetTransform().GetLocation(),
-		                                 mapping[oppositeDirection]->GetTransform().GetLocation(), pawnLocation);
+		const FVector PawnLocation = PacMazePawn->GetTransform().GetLocation();
+
+		const float TValue = InverseLerp(mapping[OppositeDirection]->GetTransform().GetLocation(),
+		                                 mapping[MovementDirection]->GetTransform().GetLocation(), PawnLocation);
 
 
 		GEngine->AddOnScreenDebugMessage(-1,4,FColor::Red, FString::SanitizeFloat(TValue));
@@ -163,7 +162,7 @@ void APacLink::MovePawns()
 		if(TValue >= 1)
 		{
 			CurrentlyHandledPacPawns.Remove(PacMazePawn);
-			mapping[movementDirection]->Assign(PacMazePawn);
+			mapping[MovementDirection]->Assign(PacMazePawn);
 		
 		}
 		

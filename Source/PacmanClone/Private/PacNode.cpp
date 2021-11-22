@@ -73,7 +73,6 @@ void APacNode::Tick(float DeltaSeconds)
 		default:
 			{
 				GEngine->AddOnScreenDebugMessage(-1,5,FColor::Orange,TEXT("wtf"));
-
 				break;
 			}
 		}
