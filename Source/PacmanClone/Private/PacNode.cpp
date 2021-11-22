@@ -20,6 +20,68 @@ void APacNode::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if(bSpawnPellets)
+	{
+		AActor* Pellet = GetWorld()->SpawnActor(ScoreSpawnType);	
+		Pellet->SetActorLocation(GetTransform().GetLocation());
+	}
+	
+	
+}
+
+bool APacNode::TryAssignPawnToDirection(APacMazePawn* PacMazePawn,TEnumAsByte<EMazeDirection> Direction)
+{
+	switch (Direction.GetValue())
+	{
+	case Down:
+		{
+			if(BottomLink!=nullptr)
+			{
+				CurrentlyHandledPacPawns.Remove(PacMazePawn);
+				BottomLink->Assign(PacMazePawn,Down);
+				return true;
+			}
+			break;
+		}
+	case Up:
+		{
+			if(UpLink!=nullptr)
+			{
+				CurrentlyHandledPacPawns.Remove(PacMazePawn);
+				UpLink->Assign(PacMazePawn,Up);
+
+				return true;
+			}
+			break;
+		}
+	case Left:
+		{
+			if(LeftLink!=nullptr)
+			{
+				CurrentlyHandledPacPawns.Remove(PacMazePawn);
+				LeftLink->Assign(PacMazePawn,Left);
+				return true;
+			}
+			break;
+		}
+	case Right:
+		{
+			if(RightLink!=nullptr)
+			{
+				CurrentlyHandledPacPawns.Remove(PacMazePawn);
+				RightLink->Assign(PacMazePawn,Right);
+				return true;
+			}
+			break;
+		}
+	default:
+		{
+			GEngine->AddOnScreenDebugMessage(-1,5,FColor::Orange,TEXT("wtf"));
+			return false;
+			break;
+		}
+	}
+	return false;
 }
 
 void APacNode::Tick(float DeltaSeconds)
@@ -28,55 +90,17 @@ void APacNode::Tick(float DeltaSeconds)
 	
 	for (APacMazePawn* PacMazePawn : CurrentlyHandledPacPawns)
 	{
-		
-		PacMazePawn->GetMovementComponent()->StopMovementImmediately();
-
-		
-		switch (PacMazePawn->GetDisplayedDirection().GetValue())
+		if(PacMazePawn== nullptr)
 		{
-		case Down:
-			{
-				if(BottomLink)
-				{
-					CurrentlyHandledPacPawns.Remove(PacMazePawn);
-					BottomLink->Assign(PacMazePawn,Down);
-				}
-				break;
-			}
-		case Up:
-			{
-				if(UpLink)
-				{
-					CurrentlyHandledPacPawns.Remove(PacMazePawn);
-					UpLink->Assign(PacMazePawn,Up);
-				}
-				break;
-			}
-		case Left:
-			{
-				if(Left)
-				{
-					CurrentlyHandledPacPawns.Remove(PacMazePawn);
-					LeftLink->Assign(PacMazePawn,Left);
-				}
-				break;
-			}
-		case Right:
-			{
-				if(RightLink)
-				{
-					CurrentlyHandledPacPawns.Remove(PacMazePawn);
-					RightLink->Assign(PacMazePawn,Right);
-				}
-				break;
-			}
-		default:
-			{
-				GEngine->AddOnScreenDebugMessage(-1,5,FColor::Orange,TEXT("wtf"));
-				break;
-			}
+			return;
 		}
+		PacMazePawn->SetPacMovementActive(false);
 		
+		bool bAssigned = TryAssignPawnToDirection(PacMazePawn,PacMazePawn->GetDisplayedDirection());
+		if(!bAssigned)
+		{
+			TryAssignPawnToDirection(PacMazePawn,PacMazePawn->GetMovementDirection());
+		}
 	}
 }
 
@@ -102,6 +126,7 @@ void APacNode::DrawLinkConnection( APacLink* Link, FVector AlternateDirection)
 
 void APacNode::Assign(APacMazePawn* PacMazePawn)
 {
+	
 	Super::Assign(PacMazePawn);
 
 	

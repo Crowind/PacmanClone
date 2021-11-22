@@ -25,8 +25,11 @@ private:
 	
 	UPROPERTY(Category=MazePawn, EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
 	float Speed = 1;
-
 	
+	UPROPERTY(Category=MazePawn,VisibleAnywhere)
+	bool bPacMovementEnabled;
+
+
 public:
 
 	static FVector* DirectionToVector(EMazeDirection Direction);
@@ -38,6 +41,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	void PacMove(float DeltaTime);
 
 public:	
 	// Called every frame
@@ -56,7 +60,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TEnumAsByte<EMazeDirection> GetMovementDirection();
 
+	UFUNCTION(BlueprintCallable)
+	void SetPacMovementActive(bool active);
 
+	UFUNCTION(BlueprintCallable)
+	bool GetPacMovementActive();
 
 	
 	UFUNCTION(BlueprintCallable)

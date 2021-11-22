@@ -19,9 +19,8 @@ void APacMazeZone::DrawGizmos()
 
 void APacMazeZone::Assign(APacMazePawn* PacMazePawn)
 {
-	GEngine->AddOnScreenDebugMessage(-1,5,FColor::Emerald,this->GetName());
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
-	PacMazePawn->TeleportTo(GetTransform().GetLocation(),FRotator::ZeroRotator);
+	PacMazePawn->SetActorLocation(GetTransform().GetLocation());
 	
 }
 
@@ -39,4 +38,6 @@ void APacMazeZone::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 }
+
+
 

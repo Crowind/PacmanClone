@@ -29,6 +29,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	bool TryAssignPawnToDirection(APacMazePawn* PacMazePawn,TEnumAsByte<EMazeDirection> Direction);
 
 
 public:	

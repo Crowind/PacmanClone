@@ -6,6 +6,7 @@
 #include "DrawDebugHelpers.h"
 #include "PacMazePawn.h"
 #include "PacNode.h"
+#include "GameFramework/PawnMovementComponent.h"
 
 // Sets default values
 APacLink::APacLink()
@@ -17,12 +18,8 @@ APacLink::APacLink()
 }
 
 
-
-// Called when the game starts or when spawned
-void APacLink::BeginPlay()
+void APacLink::InitMapping()
 {
-	Super::BeginPlay();
-
 	if(Head1)
 	{
 		const auto Node1 = Cast<APacNode>(Head1);
@@ -69,6 +66,26 @@ void APacLink::BeginPlay()
 			}
 		}
 	}
+}
+
+// Called when the game starts or when spawned
+void APacLink::BeginPlay()
+{
+	Super::BeginPlay();
+
+	InitMapping();
+	
+	if(bSpawnPellets)
+	{
+		for(float i = 1;i<=PelletsAmount;i++)
+		{
+			AActor* Pellet = GetWorld()->SpawnActor(ScoreSpawnType);
+			
+			FVector PelletLocation =FMath::Lerp( Head1->GetTransform().GetLocation(), Head2->GetTransform().GetLocation(),(i)/(PelletsAmount+1));
+			Pellet->SetActorLocation(PelletLocation);
+		}
+		
+	}
 	
 }
 
@@ -76,7 +93,7 @@ void APacLink::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	MovePawns();
+	CheckPawnsMovement();
 }
 
 void APacLink::DrawGizmos()
@@ -128,16 +145,18 @@ TEnumAsByte<EMazeDirection> Opposite(const TEnumAsByte<EMazeDirection>& Directio
 void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection)
 {
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
+	
+	PacMazePawn->SetPacMovementActive(true);
 
 	TArray<TEnumAsByte<EMazeDirection>> keys;
 	mapping.GetKeys(keys);
 
 	const FVector Entrance = mapping[Opposite(entranceDirection)]->GetTransform().GetLocation(); 
 	//
-	PacMazePawn->TeleportTo(Entrance,FRotator::ZeroRotator);
+	PacMazePawn->SetActorLocation(Entrance);
 };
 
-void APacLink::MovePawns()
+void APacLink::CheckPawnsMovement()
 {
 	for (APacMazePawn* PacMazePawn : CurrentlyHandledPacPawns)
 	{
@@ -155,9 +174,6 @@ void APacLink::MovePawns()
 
 		const float TValue = InverseLerp(mapping[OppositeDirection]->GetTransform().GetLocation(),
 		                                 mapping[MovementDirection]->GetTransform().GetLocation(), PawnLocation);
-
-
-		GEngine->AddOnScreenDebugMessage(-1,4,FColor::Red, FString::SanitizeFloat(TValue));
 		
 		if(TValue >= 1)
 		{

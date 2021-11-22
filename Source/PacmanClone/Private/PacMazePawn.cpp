@@ -3,7 +3,7 @@
 
 #include "PacMazePawn.h"
 
-#include "GameFramework/PawnMovementComponent.h"
+#include "Components/CapsuleComponent.h"
 
 
 FVector* APacMazePawn::DirectionToVector(EMazeDirection Direction)
@@ -40,14 +40,24 @@ APacMazePawn::APacMazePawn():Super()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	DisplayedDirection = Left;
-	
-	
 }
 
 // Called when the game starts or when spawned
 void APacMazePawn::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCapsuleComponent()->GetBodyInstance()->bLockRotation=true;
+	GetCapsuleComponent()->GetBodyInstance()->bLockZTranslation=true;
+}
+
+void APacMazePawn::PacMove(float DeltaTime)
+{
+	const FVector* DirectionVector = DirectionToVector(MovementDirection);
+	if(bPacMovementEnabled)
+	{
+		SetActorLocation(GetTransform().GetLocation()+*DirectionVector*Speed*DeltaTime);
+	}
+	delete(DirectionVector);
 }
 
 // Called every frame
@@ -55,16 +65,11 @@ void APacMazePawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	const FVector* DirectionVector = DirectionToVector(DisplayedDirection);
-	
-    AddMovementInput(*DirectionVector,Speed);
-	
-	delete(DirectionVector);
+	PacMove(DeltaTime);
 	
 	
 }
 
-// Called to bind functionality to input
 void APacMazePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -88,13 +93,49 @@ TEnumAsByte<EMazeDirection> APacMazePawn::GetDisplayedDirection()
 
 void APacMazePawn::SetMovementDirection(EMazeDirection Direction)
 {
-	GetMovementComponent()->StopMovementImmediately();
 	MovementDirection=Direction;
+
+	switch (MovementDirection)
+	{
+	case Down:
+	case Up:
+		{
+			GetCapsuleComponent()->GetBodyInstance()->bLockYTranslation = false;
+			GetCapsuleComponent()->GetBodyInstance()->bLockXTranslation = true;
+			break;
+		}
+	case Left:
+	case Right:
+		{
+			GetCapsuleComponent()->GetBodyInstance()->bLockYTranslation = true;
+			GetCapsuleComponent()->GetBodyInstance()->bLockXTranslation = false;
+			break;
+		}
+	default: break;
+	}
+
+
+	
 }
 
 TEnumAsByte<EMazeDirection> APacMazePawn::GetMovementDirection()
 {
 	return MovementDirection;
+}
+
+void APacMazePawn::SetPacMovementActive(bool active)
+{
+	bPacMovementEnabled = active;
+	if(!active)
+	{
+		GetCapsuleComponent()->GetBodyInstance()->bLockYTranslation = true;
+		GetCapsuleComponent()->GetBodyInstance()->bLockXTranslation = true;
+	}
+}
+
+bool APacMazePawn::GetPacMovementActive()
+{
+	return bPacMovementEnabled;
 }
 
 void APacMazePawn::GoUp()

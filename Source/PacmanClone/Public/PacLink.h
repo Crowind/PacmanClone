@@ -14,12 +14,20 @@ class PACMANCLONE_API APacLink : public APacMazeZone
 public:	
 	// Sets default values for this actor's properties
 	APacLink();
+	void InitMapping();
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	APacMazeZone* Head1;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	APacMazeZone* Head2;
 
+	UPROPERTY(Category="PacMazeZone",EditAnywhere,BlueprintReadWrite, meta=(EditCondition= "bSpawnPellets"))
+	int PelletsAmount;
+	UPROPERTY(Category="PacMazeZone",EditAnywhere,BlueprintReadWrite, meta=(EditCondition= "bSpawnPellets"))
+	bool bSpawnSpecialPellet;
+	UPROPERTY(Category="PacMazeZone",EditAnywhere,BlueprintReadWrite, meta=(EditCondition ="BSpawnSpecialPellet"))
+	TSubclassOf<APacScoreItem> SpecialPellet;
+	
 	UPROPERTY(VisibleAnywhere)
 	TMap<TEnumAsByte<EMazeDirection>,APacMazeZone*> mapping;
 	
@@ -42,6 +50,6 @@ public:
 	static float InverseLerp(FVector v1, FVector v2, FVector value);
 
 	UFUNCTION(BlueprintCallable)
-    virtual void MovePawns();
+    virtual void CheckPawnsMovement();
    
 };

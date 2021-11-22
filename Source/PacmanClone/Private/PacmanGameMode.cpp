@@ -14,3 +14,8 @@ APacmanGameMode::APacmanGameMode()
 	
 
 }
+
+void APacmanGameMode::AddPoints(int points)
+{
+	CurrentScore+=points;
+}

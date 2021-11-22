@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PacMazePawn.h"
+#include "PacScoreItem.h"
 #include "Chaos/AABB.h"
 #include "PacMazeZone.generated.h"
 
@@ -19,6 +20,8 @@ public:
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool bSpawnPellets;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta=(EditCondition= "bSpawnPellets"))
+	TSubclassOf<APacScoreItem> ScoreSpawnType;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FColor GizmoColor;
 	

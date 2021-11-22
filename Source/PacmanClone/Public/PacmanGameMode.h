@@ -16,4 +16,12 @@ class PACMANCLONE_API APacmanGameMode : public AGameModeBase
 
 public:
 	APacmanGameMode();
+
+	void AddPoints(int points);
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	int CurrentScore;
+	
+	
 };
