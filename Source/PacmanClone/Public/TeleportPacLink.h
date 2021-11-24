@@ -16,5 +16,6 @@ class PACMANCLONE_API ATeleportPacLink : public APacLink
 
 
 	virtual void Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection) override;	
-	
+
+	virtual void BeginPlay() override;
 };

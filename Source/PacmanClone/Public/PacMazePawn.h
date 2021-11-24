@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "PacMazePawn.generated.h"
+class APacMazeZone;
 UENUM(BlueprintType)
 enum EMazeDirection {Down,Right,Up,Left};
 
@@ -31,6 +32,9 @@ private:
 
 
 public:
+
+	UPROPERTY(Category=MazePawn,VisibleAnywhere,BlueprintReadWrite)
+	APacMazeZone* CurrentZone;
 
 	static FVector* DirectionToVector(EMazeDirection Direction);
 	

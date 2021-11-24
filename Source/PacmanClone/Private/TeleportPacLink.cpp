@@ -3,7 +3,6 @@
 
 #include "TeleportPacLink.h"
 
-
 void ATeleportPacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> EntranceDirection)
 {
 
@@ -12,4 +11,11 @@ void ATeleportPacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirect
 	PacMazePawn->SetPacMovementActive(true);
 	mapping[EntranceDirection]->Assign(PacMazePawn);
 	
+}
+
+void ATeleportPacLink::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Cost = 0;
 }

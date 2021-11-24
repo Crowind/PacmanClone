@@ -3,7 +3,6 @@
 
 #include "PacScoreItem.h"
 
-#include "Pacman.h"
 #include "PacmanGameMode.h"
 #include "PacMazePawn.h"
 #include "Kismet/GameplayStatics.h"

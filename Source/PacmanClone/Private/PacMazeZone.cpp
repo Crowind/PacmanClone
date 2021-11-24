@@ -19,6 +19,7 @@ void APacMazeZone::DrawGizmos()
 
 void APacMazeZone::Assign(APacMazePawn* PacMazePawn)
 {
+	PacMazePawn->CurrentZone = this;
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
 	PacMazePawn->SetActorLocation(GetTransform().GetLocation());
 	

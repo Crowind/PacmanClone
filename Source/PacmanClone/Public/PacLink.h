@@ -30,7 +30,9 @@ public:
 	
 	UPROPERTY(VisibleAnywhere)
 	TMap<TEnumAsByte<EMazeDirection>,APacMazeZone*> mapping;
-	
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	float Cost;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

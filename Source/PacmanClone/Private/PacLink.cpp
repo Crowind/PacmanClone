@@ -73,6 +73,8 @@ void APacLink::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Cost = FVector::DistXY(Head1->GetTransform().GetLocation(),Head2->GetTransform().GetLocation());
+
 	InitMapping();
 	
 	if(bSpawnPellets)
@@ -145,7 +147,7 @@ TEnumAsByte<EMazeDirection> Opposite(const TEnumAsByte<EMazeDirection>& Directio
 void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection)
 {
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
-	
+	PacMazePawn->CurrentZone = this;
 	PacMazePawn->SetPacMovementActive(true);
 
 	TArray<TEnumAsByte<EMazeDirection>> keys;
@@ -158,13 +160,14 @@ void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> ent
 
 void APacLink::CheckPawnsMovement()
 {
-	for (APacMazePawn* PacMazePawn : CurrentlyHandledPacPawns)
+	for(int i = CurrentlyHandledPacPawns.Num()-1; i>=0;i--)
 	{
-		auto DisplaydDir = PacMazePawn->GetDisplayedDirection();
+		APacMazePawn* PacMazePawn = CurrentlyHandledPacPawns[i];
+		auto DisplayedDir = PacMazePawn->GetDisplayedDirection();
 
-		if(mapping.Contains(DisplaydDir))
+		if(mapping.Contains(DisplayedDir))
 		{
-			PacMazePawn->SetMovementDirection(DisplaydDir);
+			PacMazePawn->SetMovementDirection(DisplayedDir);
 		}
 
 		TEnumAsByte<EMazeDirection> MovementDirection = PacMazePawn->GetMovementDirection();
