@@ -6,6 +6,7 @@
 #include "DrawDebugHelpers.h"
 #include "PacMazePawn.h"
 #include "PacNode.h"
+#include "PacUtilities.h"
 #include "GameFramework/PawnMovementComponent.h"
 
 // Sets default values
@@ -132,17 +133,6 @@ float APacLink::InverseLerp(FVector v1, FVector v2, FVector value)
 	return FVector::DotProduct(AV, AB) / FVector::DotProduct(AB, AB);
 }
 
-
-TEnumAsByte<EMazeDirection> Opposite(const TEnumAsByte<EMazeDirection>& Direction)
-{
-	switch (Direction) {
-	case Down: return Up;
-	case Right: return Left;
-	case Up: return Down;
-	case Left: return Right;
-	default: return Direction ;
-	}
-}
 
 void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection)
 {

@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "IsGhostState.generated.h"
+#include "AssignChasingDestinationPinky.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PACMANCLONE_API UIsGhostState : public UBTTaskNode
+class PACMANCLONE_API UAssignChasingDestinationPinky : public UBTTaskNode
 {
 	GENERATED_BODY()
 	

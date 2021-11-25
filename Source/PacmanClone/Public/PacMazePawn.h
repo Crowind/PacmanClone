@@ -40,7 +40,7 @@ public:
 	
 	// Sets default values for this pawn's properties
 
-	explicit APacMazePawn();
+	explicit APacMazePawn(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	// Called when the game starts or when spawned
