@@ -4,6 +4,7 @@
 #include "PacNode.h"
 
 #include "DrawDebugHelpers.h"
+#include "PacUtilities.h"
 #include "GameFramework/PawnMovementComponent.h"
 
 // Sets default values
@@ -134,10 +135,10 @@ void APacNode::DrawGizmos()
 {
 	Super::DrawGizmos();
 
-	DrawLinkConnection(UpLink,FVector::LeftVector);
-	DrawLinkConnection(LeftLink,FVector::BackwardVector);
-	DrawLinkConnection(RightLink,FVector::ForwardVector);
-	DrawLinkConnection(BottomLink,FVector::RightVector);
+	DrawLinkConnection(UpLink,MazeDirectionToVector(Up));
+	DrawLinkConnection(LeftLink,MazeDirectionToVector(Left));
+	DrawLinkConnection(RightLink,MazeDirectionToVector(Right));
+	DrawLinkConnection(BottomLink,MazeDirectionToVector(Down));
 
 	DrawDebugPoint(GetWorld(),GetTransform().GetLocation() ,8,bSpawnPellets?FColor::Yellow : FColor::White,true);
 	

@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "AssignChasingDestinationPinky.generated.h"
+#include "AssignChasingDestinationInky.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PACMANCLONE_API UAssignChasingDestinationPinky : public UBTTaskNode
+class PACMANCLONE_API UAssignChasingDestinationInky : public UBTTaskNode
 {
 	GENERATED_BODY()
 public:
@@ -20,6 +20,8 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FBlackboardKeySelector TargetActorKeySelector;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FBlackboardKeySelector BlinkyKeySelector;
 	
 	
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;

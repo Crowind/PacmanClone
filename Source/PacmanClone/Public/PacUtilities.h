@@ -16,3 +16,17 @@ TEnumAsByte<EMazeDirection> static Opposite(const TEnumAsByte<EMazeDirection>& D
 	default: return Direction ;
 	}
 }
+
+FVector static MazeDirectionToVector(const TEnumAsByte<EMazeDirection>& Direction)
+{
+	switch (Direction)
+	{
+	case Up: return FVector::LeftVector;
+	case Left: return FVector::BackwardVector;
+	case Right: return FVector::ForwardVector;
+	case Down: return FVector::RightVector;
+
+	default: return FVector::ZeroVector;
+	}
+	
+};
