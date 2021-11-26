@@ -25,7 +25,10 @@ private:
 	
 	
 	UPROPERTY(Category=MazePawn, EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
-	float Speed = 1;
+	float DefaultSpeed = 200;
+	
+	UPROPERTY(Category=MazePawn, EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
+	float Speed = 200;
 	
 	UPROPERTY(Category=MazePawn,VisibleAnywhere)
 	bool bPacMovementEnabled;

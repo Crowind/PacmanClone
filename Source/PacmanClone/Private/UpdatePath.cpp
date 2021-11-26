@@ -5,6 +5,7 @@
 
 #include "AIController.h"
 #include "PacLink.h"
+#include "PacMazeGhost.h"
 #include "PacMazePawn.h"
 #include "PacNode.h"
 #include "PacUtilities.h"
@@ -16,7 +17,7 @@
 EBTNodeResult::Type UUpdatePath::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 
-	APacMazePawn* Ghost = Cast<APacMazePawn>(OwnerComp.GetAIOwner()->GetPawn());
+	APacMazeGhost* Ghost = Cast<APacMazeGhost>(OwnerComp.GetAIOwner()->GetPawn());
 
 	const FVector Destination = OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsVector(DestinationKeySelector.SelectedKeyName);
 	
@@ -26,9 +27,7 @@ EBTNodeResult::Type UUpdatePath::ExecuteTask(UBehaviorTreeComponent& OwnerComp, 
 		return EBTNodeResult::Failed;
 	}
 
-	APacMazeZone* CurrentPacMazeZone = Ghost->CurrentZone;
-
-	APacLink* CurrentPacLink = Cast<APacLink>(CurrentPacMazeZone);
+	APacLink* CurrentPacLink = Cast<APacLink>(Ghost->CurrentZone);
 
 	if(CurrentPacLink)
 	{
@@ -59,27 +58,18 @@ EBTNodeResult::Type UUpdatePath::ExecuteTask(UBehaviorTreeComponent& OwnerComp, 
 
 		TArray<TEnumAsByte<EMazeDirection>>ValuesArray;
 		CostsToDirectionsMap.GenerateValueArray( ValuesArray);
-
-		// TArray<float>KeysArray;
-		// CostsToDirectionsMap.GenerateKeyArray( KeysArray);
-		//
-		// FString s;
-		// for (auto Value : ValuesArray)
-		// {
-		// 	s.Append(UEnum::GetValueAsString(Value));
-		// 	s.Append(TEXT("   -   "));
-		// }
-		// FString s2;
-		// for (auto Key : KeysArray)
-		// {
-		// 	s2.Append(FString::SanitizeFloat(Key));
-		// 	s2.Append(TEXT("   -   "));
-		// }
- 	//
-		// GEngine->AddOnScreenDebugMessage(-1,0.2,FColor::Emerald,s);
-		// GEngine->AddOnScreenDebugMessage(-1,0.2,FColor::Orange,s2);
-		//
-		Ghost->SetDisplayDirection(ValuesArray[0]);
+		
+		if(ValuesArray.Num()>0)
+		{
+			Ghost->SetDisplayDirection(ValuesArray[0]);
+		}
+		else
+		{
+			FString s = UEnum::GetValueAsString(Ghost->GetMovementDirection().GetValue());
+			Ghost->FlipDirection();
+			s.Append(" ").Append(UEnum::GetValueAsString(Ghost->GetMovementDirection().GetValue()));
+			GEngine->AddOnScreenDebugMessage(-1,1,FColor::Yellow,s);
+		}
 		
 	}
 	return EBTNodeResult::Succeeded;

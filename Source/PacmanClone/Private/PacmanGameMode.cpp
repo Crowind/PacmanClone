@@ -5,7 +5,10 @@
 
 #include "PacMazePawn.h"
 #include "PacPlayerController.h"
+#include "PacScoreItem.h"
 #include "Kismet/GameplayStatics.h"
+
+
 
 APacmanGameMode::APacmanGameMode()
 {
@@ -18,4 +21,22 @@ APacmanGameMode::APacmanGameMode()
 void APacmanGameMode::AddPoints(int points)
 {
 	CurrentScore+=points;
+}
+
+bool APacmanGameMode::IsChasingActive()
+{
+	//TODO
+	return true;
+}
+
+float APacmanGameMode::GetFrightTime()
+{
+	return 0;
+}
+
+void APacmanGameMode::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	
 }

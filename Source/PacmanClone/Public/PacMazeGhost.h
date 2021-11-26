@@ -61,10 +61,20 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	UPaperFlipbook* FlipbookEatenDown;
+	
+	UFUNCTION(BlueprintCallable)
+	UPaperFlipbookComponent* GetPaperFlipbookComponent();
 
 	
 	UFUNCTION(BlueprintCallable)
 	void FlipDirection();
+
 	UFUNCTION(BlueprintCallable)
-	UPaperFlipbookComponent* GetPaperFlipbookComponent();
+	void EnterFrightenedState();
+	
+	UFUNCTION(BlueprintCallable)
+	void OnExitFrightenedState();
+
+	
+	
 };
