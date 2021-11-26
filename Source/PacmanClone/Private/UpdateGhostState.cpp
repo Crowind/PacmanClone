@@ -14,14 +14,25 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 	
 	auto State = static_cast<EPacGhostState>(OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsEnum(PacGhostStateKeySelector.SelectedKeyName));
 
+	APacMazeGhost* Ghost = Cast<APacMazeGhost>(OwnerComp.GetAIOwner()->GetPawn());
 	switch(State)
 	{
 	case Frightened:
 		{
 			float LastFrightening = OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsFloat(FrightenedTimeStampKeySelector.SelectedKeyName);
+			if(GetWorld()->TimeSince(LastFrightening)>=GameMode->GetFrightTime()-3)
+			{
+				OwnerComp.GetAIOwner()->GetBlackboardComponent()->SetValueAsEnum(PacGhostStateKeySelector.SelectedKeyName,FrightenedEnding);
+				break;
+			}
+			
+		}
+	case FrightenedEnding:
+		{
+			float LastFrightening = OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsFloat(FrightenedTimeStampKeySelector.SelectedKeyName);
 			if(GetWorld()->TimeSince(LastFrightening)>=GameMode->GetFrightTime())
 			{
-				Cast<APacMazeGhost>(OwnerComp.GetAIOwner()->GetPawn())->OnExitFrightenedState();
+				Ghost->OnExitFrightenedState();
 			}
 			else
 			{
@@ -37,7 +48,8 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 
 			if(NewState!=State)
 			{
-				Cast<APacMazeGhost>(OwnerComp.GetAIOwner()->GetPawn())->FlipDirection();
+				Ghost->FlipDirection();
+				GEngine->AddOnScreenDebugMessage(-1,6,FColor::Orange,FString().Append(Ghost->GetName()).Append(" ").Append(UEnum::GetValueAsString(NewState)));
 			}
 			
 			OwnerComp.GetAIOwner()->GetBlackboardComponent()->SetValueAsEnum(PacGhostStateKeySelector.SelectedKeyName,NewState);

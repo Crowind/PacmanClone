@@ -19,7 +19,6 @@ EBTNodeResult::Type UAssignChasingDestinationKlyde::ExecuteTask(UBehaviorTreeCom
 		Destination = OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsVector(ScatteringDestinationKeySelector.SelectedKeyName);
 	}
 	OwnerComp.GetAIOwner()->GetBlackboardComponent()->SetValueAsVector(ChasingDestinationKeySelector.SelectedKeyName,Destination);
-
-	DrawDebugLine( OwnerComp.GetAIOwner()->GetPawn()->GetWorld(),OwnerComp.GetAIOwner()->GetPawn()->GetTransform().GetLocation(),Destination,FColor::Orange);	
+	
 	return EBTNodeResult::Succeeded;
 }

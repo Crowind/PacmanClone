@@ -40,7 +40,6 @@ EBTNodeResult::Type UAssignChasingDestinationPinky::ExecuteTask(UBehaviorTreeCom
 
 	OwnerComp.GetAIOwner()->GetBlackboardComponent()->SetValueAsVector(ChasingDestinationKeySelector.SelectedKeyName,Destination);
 
-	DrawDebugLine( OwnerComp.GetAIOwner()->GetPawn()->GetWorld(),OwnerComp.GetAIOwner()->GetPawn()->GetTransform().GetLocation(),Destination,FColor::Magenta);	
 	
 	return EBTNodeResult::Succeeded;
 }

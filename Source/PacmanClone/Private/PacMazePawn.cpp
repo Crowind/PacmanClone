@@ -138,6 +138,11 @@ bool APacMazePawn::GetPacMovementActive()
 	return bPacMovementEnabled;
 }
 
+void APacMazePawn::SetSpeedModifier(float modifier)
+{
+	Speed = DefaultSpeed*modifier;
+}
+
 void APacMazePawn::GoUp()
 {
 	//GEngine->AddOnScreenDebugMessage(-1,2, FColor::Blue,TEXT("Up"));

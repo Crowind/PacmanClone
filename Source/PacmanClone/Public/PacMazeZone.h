@@ -17,6 +17,12 @@ class PACMANCLONE_API APacMazeZone : public AActor
 public:	
 	// Sets default values for this component's properties
 	APacMazeZone();
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool bBlockGhostSteering;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta=(EditCondition= "bBlockGhostSteering"))
+	bool bFlipGhostSteering;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool bSpawnPellets;

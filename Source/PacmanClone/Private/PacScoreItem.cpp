@@ -19,9 +19,8 @@ void APacScoreItem::Tick(float DeltaSeconds)
 
 }
 
-void APacScoreItem::Consume()
+void APacScoreItem::Consume_Implementation()
 {
-
 	APacmanGameMode* GameMode = Cast< APacmanGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	GameMode->AddPoints(Score);

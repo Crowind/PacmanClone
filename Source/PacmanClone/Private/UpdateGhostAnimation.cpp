@@ -51,6 +51,11 @@ EBTNodeResult::Type UUpdateGhostAnimation::ExecuteTask(UBehaviorTreeComponent& O
 				Ghost->GetPaperFlipbookComponent()->SetFlipbook(Ghost->FlipbookFrightened);
 				break;
 			}
+		case FrightenedEnding:
+			{
+				Ghost->GetPaperFlipbookComponent()->SetFlipbook(Ghost->FlipbookFrightenedEnding);
+				break;
+			}
 		case Eaten:
 			{
 				switch (Ghost->GetMovementDirection())

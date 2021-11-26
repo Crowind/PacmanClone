@@ -15,7 +15,7 @@ class PACMANCLONE_API APacNode : public APacMazeZone
 public:	
 	// Sets default values for this actor's properties
 	APacNode();
-
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	class APacLink* UpLink;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)

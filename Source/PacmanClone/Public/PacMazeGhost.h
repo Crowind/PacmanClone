@@ -13,6 +13,7 @@ enum EPacGhostState
 	Scattering,
 	Chasing,
 	Frightened,
+	FrightenedEnding,
 	Eaten
 };
 
@@ -31,6 +32,8 @@ private:
 public:
 	explicit APacMazeGhost(const FObjectInitializer& ObjectInitializer);
 
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	bool bCanSteer = true;
 
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	UPaperFlipbook* FlipbookUp;
@@ -74,7 +77,10 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void OnExitFrightenedState();
+	UFUNCTION(BlueprintCallable)
+	void SetSteering(bool bCond);
 
-	
-	
+	virtual void SetDisplayDirection_Implementation(EMazeDirection Direction) override;
+	UFUNCTION(BlueprintCallable)
+	void FlipSteering();
 };

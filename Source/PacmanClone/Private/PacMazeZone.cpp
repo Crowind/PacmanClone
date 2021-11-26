@@ -3,6 +3,8 @@
 
 #include "PacMazeZone.h"
 
+#include "PacMazeGhost.h"
+
 // Sets default values for this component's properties
 APacMazeZone::APacMazeZone()
 {
@@ -19,6 +21,19 @@ void APacMazeZone::DrawGizmos()
 
 void APacMazeZone::Assign(APacMazePawn* PacMazePawn)
 {
+	auto ghost = Cast<APacMazeGhost>(PacMazePawn);
+	if(ghost!=nullptr)
+	{
+		if(bFlipGhostSteering)
+		{
+			ghost->FlipSteering();
+		}
+		else
+		{
+			ghost->SetSteering (!bBlockGhostSteering);	
+		}
+	}
+	
 	PacMazePawn->CurrentZone = this;
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
 	PacMazePawn->SetActorLocation(GetTransform().GetLocation());

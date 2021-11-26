@@ -16,6 +16,8 @@ public:
 	APacLink();
 	void InitMapping();
 
+
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	APacMazeZone* Head1;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
@@ -45,6 +47,7 @@ public:
 	virtual void DrawGizmos() override;
 
 	virtual void Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection);
+	void CheckPawnMovement(APacMazePawn* PacMazePawn);
 
 	UFUNCTION(BlueprintCallable)
 	virtual void TryAttach(APacMazeZone* NewHead);

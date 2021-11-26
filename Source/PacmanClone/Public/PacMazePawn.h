@@ -73,6 +73,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool GetPacMovementActive();
 
+	UFUNCTION(BlueprintCallable)
+	void SetSpeedModifier(float modifier);
 	
 	UFUNCTION(BlueprintCallable)
 	void GoUp();

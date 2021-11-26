@@ -4,6 +4,7 @@
 #include "PacLink.h"
 
 #include "DrawDebugHelpers.h"
+#include "PacMazeGhost.h"
 #include "PacMazePawn.h"
 #include "PacNode.h"
 #include "PacUtilities.h"
@@ -82,8 +83,10 @@ void APacLink::BeginPlay()
 	{
 		for(float i = 1;i<=PelletsAmount;i++)
 		{
-			AActor* Pellet = GetWorld()->SpawnActor(ScoreSpawnType);
-			
+			AActor* Pellet = (bSpawnSpecialPellet && i-1 == PelletsAmount-i)
+				                 ? GetWorld()->SpawnActor(SpecialPellet)
+				                 : GetWorld()->SpawnActor(ScoreSpawnType);
+
 			FVector PelletLocation =FMath::Lerp( Head1->GetTransform().GetLocation(), Head2->GetTransform().GetLocation(),(i)/(PelletsAmount+1));
 			Pellet->SetActorLocation(PelletLocation);
 		}
@@ -136,6 +139,19 @@ float APacLink::InverseLerp(FVector v1, FVector v2, FVector value)
 
 void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection)
 {
+	auto ghost = Cast<APacMazeGhost>(PacMazePawn);
+	if(ghost!=nullptr)
+	{
+		if(bFlipGhostSteering)
+		{
+			ghost->FlipSteering();
+		}
+		else
+		{
+			ghost->SetSteering (!bBlockGhostSteering);	
+		}
+	}
+	CheckPawnMovement(PacMazePawn);
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
 	PacMazePawn->CurrentZone = this;
 	PacMazePawn->SetPacMovementActive(true);
@@ -148,32 +164,37 @@ void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> ent
 	PacMazePawn->SetActorLocation(Entrance);
 };
 
+void APacLink::CheckPawnMovement(APacMazePawn* PacMazePawn)
+{
+	auto DisplayedDir = PacMazePawn->GetDisplayedDirection();
+
+	if(mapping.Contains(DisplayedDir))
+	{
+		PacMazePawn->SetMovementDirection(DisplayedDir);
+	}
+
+	TEnumAsByte<EMazeDirection> MovementDirection = PacMazePawn->GetMovementDirection();
+	const TEnumAsByte<EMazeDirection> OppositeDirection = Opposite(MovementDirection);
+
+	const FVector PawnLocation = PacMazePawn->GetTransform().GetLocation();
+
+	const float TValue = InverseLerp(mapping[OppositeDirection]->GetTransform().GetLocation(),
+	                                 mapping[MovementDirection]->GetTransform().GetLocation(), PawnLocation);
+		
+	if(TValue >= 1)
+	{
+		CurrentlyHandledPacPawns.Remove(PacMazePawn);
+		mapping[MovementDirection]->Assign(PacMazePawn);
+		
+	}
+}
+
 void APacLink::CheckPawnsMovement()
 {
 	for(int i = CurrentlyHandledPacPawns.Num()-1; i>=0;i--)
 	{
 		APacMazePawn* PacMazePawn = CurrentlyHandledPacPawns[i];
-		auto DisplayedDir = PacMazePawn->GetDisplayedDirection();
-
-		if(mapping.Contains(DisplayedDir))
-		{
-			PacMazePawn->SetMovementDirection(DisplayedDir);
-		}
-
-		TEnumAsByte<EMazeDirection> MovementDirection = PacMazePawn->GetMovementDirection();
-		const TEnumAsByte<EMazeDirection> OppositeDirection = Opposite(MovementDirection);
-
-		const FVector PawnLocation = PacMazePawn->GetTransform().GetLocation();
-
-		const float TValue = InverseLerp(mapping[OppositeDirection]->GetTransform().GetLocation(),
-		                                 mapping[MovementDirection]->GetTransform().GetLocation(), PawnLocation);
-		
-		if(TValue >= 1)
-		{
-			CurrentlyHandledPacPawns.Remove(PacMazePawn);
-			mapping[MovementDirection]->Assign(PacMazePawn);
-		
-		}
+		CheckPawnMovement(PacMazePawn);
 		
 	}
 	

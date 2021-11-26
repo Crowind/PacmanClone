@@ -73,10 +73,19 @@ public:
 	bool IsChasingActive();
 	UFUNCTION(BlueprintCallable)
 	float GetFrightTime();
-
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UFUNCTION(BlueprintCallable)
+	float GetGhostFrightenedSpeed();
+	UFUNCTION(BlueprintCallable)
+	float GetGhostSpeed();
+	UFUNCTION(BlueprintCallable)
+	float GetGhostTunnelSpeed();
+	
+private:
+	UPROPERTY(EditAnywhere)
 	TArray<ULevelData*> LevelDatas;
 	
+	UPROPERTY(EditAnywhere)
+	int CurrentLevelIndex=0;
 private:
 	UPROPERTY(VisibleAnywhere)
 	int CurrentScore;

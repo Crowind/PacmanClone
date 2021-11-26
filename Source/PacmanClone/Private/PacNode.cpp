@@ -4,6 +4,7 @@
 #include "PacNode.h"
 
 #include "DrawDebugHelpers.h"
+#include "PacMazeGhost.h"
 #include "PacUtilities.h"
 #include "GameFramework/PawnMovementComponent.h"
 
@@ -88,8 +89,10 @@ bool APacNode::TryAssignPawnToDirection(APacMazePawn* PacMazePawn,TEnumAsByte<EM
 void APacNode::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+
+	const int HandledPawns = CurrentlyHandledPacPawns.Num();
 	
-	for(int i = CurrentlyHandledPacPawns.Num()-1; i>=0;i--)
+	for(int i = HandledPawns-1; i>=0;i--)
 	{
 		APacMazePawn* PacMazePawn = CurrentlyHandledPacPawns[i];
 		if(PacMazePawn== nullptr)
@@ -129,6 +132,7 @@ void APacNode::DrawLinkConnection( APacLink* Link, FVector AlternateDirection)
 void APacNode::Assign(APacMazePawn* PacMazePawn)
 {
 	Super::Assign(PacMazePawn);
+	
 }
 
 void APacNode::DrawGizmos()
