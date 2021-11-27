@@ -4,6 +4,7 @@
 #include "PacPerson.h"
 
 #include "PacScoreItem.h"
+#include "PacUtilities.h"
 
 void APacPerson::Tick(float DeltaSeconds)
 {
@@ -18,4 +19,24 @@ void APacPerson::Tick(float DeltaSeconds)
 		Cast<APacScoreItem>(ScoreItem)->Consume();
 	}
 	
+}
+
+void APacPerson::FlipSteering()
+{
+	bCanSteer = !bCanSteer;
+}
+
+void APacPerson::SetMovementDirection(EMazeDirection Direction)
+{
+		Super::SetMovementDirection(Direction);
+
+}
+
+TEnumAsByte<EMazeDirection> APacPerson::GetDisplayedDirection()
+{
+	if(!bCanSteer)
+	{
+		return GetMovementDirection();
+	}
+	return Super::GetDisplayedDirection();
 }

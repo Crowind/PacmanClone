@@ -31,7 +31,8 @@ private:
 	
 public:
 	explicit APacMazeGhost(const FObjectInitializer& ObjectInitializer);
-
+	
+	
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	bool bCanSteer = true;
 

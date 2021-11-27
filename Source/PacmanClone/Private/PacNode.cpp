@@ -40,6 +40,7 @@ bool APacNode::TryAssignPawnToDirection(APacMazePawn* PacMazePawn,TEnumAsByte<EM
 			if(BottomLink!=nullptr)
 			{
 				CurrentlyHandledPacPawns.Remove(PacMazePawn);
+				PacMazePawn->SetMovementDirection(Down);
 				BottomLink->Assign(PacMazePawn,Down);
 				return true;
 			}
@@ -50,6 +51,7 @@ bool APacNode::TryAssignPawnToDirection(APacMazePawn* PacMazePawn,TEnumAsByte<EM
 			if(UpLink!=nullptr)
 			{
 				CurrentlyHandledPacPawns.Remove(PacMazePawn);
+				PacMazePawn->SetMovementDirection(Up);
 				UpLink->Assign(PacMazePawn,Up);
 
 				return true;
@@ -61,6 +63,7 @@ bool APacNode::TryAssignPawnToDirection(APacMazePawn* PacMazePawn,TEnumAsByte<EM
 			if(LeftLink!=nullptr)
 			{
 				CurrentlyHandledPacPawns.Remove(PacMazePawn);
+				PacMazePawn->SetMovementDirection(Left);
 				LeftLink->Assign(PacMazePawn,Left);
 				return true;
 			}
@@ -71,6 +74,7 @@ bool APacNode::TryAssignPawnToDirection(APacMazePawn* PacMazePawn,TEnumAsByte<EM
 			if(RightLink!=nullptr)
 			{
 				CurrentlyHandledPacPawns.Remove(PacMazePawn);
+				PacMazePawn->SetMovementDirection(Right);
 				RightLink->Assign(PacMazePawn,Right);
 				return true;
 			}

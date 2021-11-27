@@ -28,7 +28,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UScatterChaseDurations* ScatterChaseDurations;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	APacScoreItem* BonusItem;
+	TSubclassOf<APacScoreItem> BonusItem;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float PacSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

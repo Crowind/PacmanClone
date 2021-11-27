@@ -16,5 +16,13 @@ class PACMANCLONE_API APacPerson : public APacMazePawn
 
 
 	virtual void Tick(float DeltaSeconds) override;
+public:
+	void FlipSteering();
 	
+	UPROPERTY(BlueprintReadWrite,VisibleAnywhere)
+	bool bCanSteer=true;
+
+	virtual void SetMovementDirection(EMazeDirection Direction) override;
+
+	virtual TEnumAsByte<EMazeDirection> GetDisplayedDirection() override;
 };

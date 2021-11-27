@@ -40,6 +40,7 @@ APacMazePawn::APacMazePawn(const FObjectInitializer& ObjectInitializer):Super(Ob
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	DisplayedDirection = Left;
+	MovementDirection = Left;
 }
 
 // Called when the game starts or when spawned

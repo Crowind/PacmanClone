@@ -16,7 +16,8 @@ public:
 	APacLink();
 	void InitMapping();
 
-
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool bFlipPacPersonSteer;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	APacMazeZone* Head1;

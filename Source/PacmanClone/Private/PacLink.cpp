@@ -7,6 +7,7 @@
 #include "PacMazeGhost.h"
 #include "PacMazePawn.h"
 #include "PacNode.h"
+#include "PacPerson.h"
 #include "PacUtilities.h"
 #include "GameFramework/PawnMovementComponent.h"
 
@@ -139,7 +140,7 @@ float APacLink::InverseLerp(FVector v1, FVector v2, FVector value)
 
 void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection)
 {
-	auto ghost = Cast<APacMazeGhost>(PacMazePawn);
+	APacMazeGhost* ghost = Cast<APacMazeGhost>(PacMazePawn);
 	if(ghost!=nullptr)
 	{
 		if(bFlipGhostSteering)
@@ -149,6 +150,18 @@ void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> ent
 		else
 		{
 			ghost->SetSteering (!bBlockGhostSteering);	
+		}
+	}
+	APacPerson* pacPerson = Cast<APacPerson>(PacMazePawn);
+	if(pacPerson!=nullptr)
+	{
+		if(bFlipPacPersonSteer)
+		{
+			pacPerson->FlipSteering();
+		}
+		else
+		{
+			pacPerson->bCanSteer=true;
 		}
 	}
 	CheckPawnMovement(PacMazePawn);

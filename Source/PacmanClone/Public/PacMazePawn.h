@@ -60,10 +60,10 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void SetDisplayDirection(EMazeDirection Direction);
 	UFUNCTION(BlueprintCallable)
-	TEnumAsByte<EMazeDirection> GetDisplayedDirection();
+	virtual TEnumAsByte<EMazeDirection> GetDisplayedDirection();
 
 	UFUNCTION(BlueprintCallable)
-	void SetMovementDirection(EMazeDirection Direction);
+	virtual void SetMovementDirection(EMazeDirection Direction);
 	UFUNCTION(BlueprintCallable)
 	TEnumAsByte<EMazeDirection> GetMovementDirection();
 

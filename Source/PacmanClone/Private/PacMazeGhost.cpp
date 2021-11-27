@@ -5,7 +5,6 @@
 
 #include "AIController.h"
 #include "PacLink.h"
-#include "PacmanGameMode.h"
 #include "PacMazeZone.h"
 #include "PacUtilities.h"
 #include "BehaviorTree/BlackboardComponent.h"
