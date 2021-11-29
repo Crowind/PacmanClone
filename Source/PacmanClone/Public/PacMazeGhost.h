@@ -28,8 +28,11 @@ class PACMANCLONE_API APacMazeGhost : public APacMazePawn
 private:
 	UPROPERTY(EditAnywhere)
 	UPaperFlipbookComponent * PaperFlipbookComponent;
-	
+
 public:
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool bOutOfHouse;
+
 	explicit APacMazeGhost(const FObjectInitializer& ObjectInitializer);
 	
 	

@@ -27,6 +27,8 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	TEnumAsByte<EMazeDirection> Head2Direction;
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	bool bOneWay;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void Close();

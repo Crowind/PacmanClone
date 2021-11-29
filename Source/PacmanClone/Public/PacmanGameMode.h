@@ -64,7 +64,20 @@ class PACMANCLONE_API APacmanGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+	float lastPillTimestamp;
+	float lastEatenDotTimestamp;
+	float ghostPoints;
 public:
+
+	UFUNCTION(BlueprintCallable)
+	void PowerPillActivated();
+	UFUNCTION(BlueprintCallable)
+	void GhostCaught();
+	UFUNCTION(BlueprintCallable)
+	float GetPlayerSpeed();
+	UFUNCTION(BlueprintCallable)
+	void UpdateEatenDot();
+	
 	APacmanGameMode();
 //TODO Current Level Index
 	UFUNCTION(BlueprintCallable)

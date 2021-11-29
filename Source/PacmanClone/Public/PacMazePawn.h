@@ -17,10 +17,10 @@ class PACMANCLONE_API APacMazePawn : public ACharacter
 
 private:
 	
-	UPROPERTY(Category=MazePawn, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(Category=MazePawn, EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	TEnumAsByte<EMazeDirection> DisplayedDirection;
 	
-	UPROPERTY(Category=MazePawn, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(Category=MazePawn, EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	TEnumAsByte<EMazeDirection> MovementDirection;
 	
 	

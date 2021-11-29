@@ -25,4 +25,6 @@ public:
 	virtual void SetMovementDirection(EMazeDirection Direction) override;
 
 	virtual TEnumAsByte<EMazeDirection> GetDisplayedDirection() override;
+
+	virtual void BeginPlay() override;
 };

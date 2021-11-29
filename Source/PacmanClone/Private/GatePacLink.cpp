@@ -79,7 +79,10 @@ void AGatePacLink::Open()
     		}
     	default: ;
     	}
-    	
+	if(bOneWay)
+    	{
+    		return;
+    	}
 	const auto Node2 = Cast<APacNode>(Head2);
 	switch(Head1Direction.GetValue())
 	{

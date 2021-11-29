@@ -3,6 +3,7 @@
 
 #include "PacPerson.h"
 
+#include "PacmanGameMode.h"
 #include "PacScoreItem.h"
 #include "PacUtilities.h"
 
@@ -18,6 +19,8 @@ void APacPerson::Tick(float DeltaSeconds)
 	{
 		Cast<APacScoreItem>(ScoreItem)->Consume();
 	}
+
+	SetSpeedModifier( Cast<APacmanGameMode>(GetWorld()->GetAuthGameMode())->GetPlayerSpeed() );
 	
 }
 
@@ -39,4 +42,11 @@ TEnumAsByte<EMazeDirection> APacPerson::GetDisplayedDirection()
 		return GetMovementDirection();
 	}
 	return Super::GetDisplayedDirection();
+}
+
+void APacPerson::BeginPlay()
+{
+	SetMovementDirection(Left);
+	SetDisplayDirection(Left);
+	Super::BeginPlay();
 }

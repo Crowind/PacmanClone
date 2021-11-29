@@ -3,12 +3,57 @@
 
 #include "PacmanGameMode.h"
 
+#include "EngineUtils.h"
+#include "PacMazeGhost.h"
 #include "PacMazePawn.h"
 #include "PacPlayerController.h"
-#include "PacScoreItem.h"
-#include "Kismet/GameplayStatics.h"
 
 
+void APacmanGameMode::PowerPillActivated()
+{
+	for (TActorIterator<APacMazeGhost> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		ActorItr->EnterFrightenedState();
+	}
+	lastPillTimestamp = GetWorld()->TimeSeconds;
+
+	ghostPoints = 200;
+	
+}
+
+void APacmanGameMode::GhostCaught()
+{
+	AddPoints(ghostPoints);
+	ghostPoints*=2;
+}
+
+float APacmanGameMode::GetPlayerSpeed()
+{
+	if(GetWorld()->TimeSince(lastPillTimestamp)<GetFrightTime())
+	{
+		if(GetWorld()->TimeSince(lastEatenDotTimestamp)<0.2)
+		{
+			return LevelDatas[CurrentLevelIndex]->FrightPacManEatingSpeed;
+		}
+		return LevelDatas[CurrentLevelIndex]->FrightPacManSpeed;
+		
+	}
+	
+	if(GetWorld()->TimeSince(lastEatenDotTimestamp)<0.2)
+	{
+		return LevelDatas[CurrentLevelIndex]->FrightPacManSpeed;
+	}
+
+	return LevelDatas[CurrentLevelIndex]->PacSpeed;
+		
+	
+}
+
+
+void APacmanGameMode::UpdateEatenDot()
+{
+	lastEatenDotTimestamp= GetWorld()->TimeSeconds;
+}
 
 APacmanGameMode::APacmanGameMode()
 {

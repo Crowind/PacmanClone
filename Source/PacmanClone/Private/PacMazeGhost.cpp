@@ -39,7 +39,11 @@ void APacMazeGhost::EnterFrightenedState()
 {
 	Cast<AAIController>(GetController())->GetBlackboardComponent()->SetValueAsFloat(FName("FrightenedTimeStamp"),GetWorld()->TimeSeconds);
 	Cast<AAIController>(GetController())->GetBlackboardComponent()->SetValueAsEnum(FName("GhostCurrentState"),EPacGhostState::Frightened);
-	FlipDirection();
+
+	if (bOutOfHouse)
+	{
+		FlipDirection();
+	}
 	
 }
 
