@@ -11,7 +11,7 @@ EBTNodeResult::Type UIsEatenDestinationReached::ExecuteTask(UBehaviorTreeCompone
 	const FVector CurrentPosition = OwnerComp.GetAIOwner()->GetPawn()->GetTransform().GetLocation();
 
 	const FVector Destination = OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsVector(EatenDestinationSelectorKey.SelectedKeyName);
-
-	return  FVector::DistXY(CurrentPosition,Destination) <30 ? EBTNodeResult::Failed : EBTNodeResult::Succeeded;
+	
+	return  FVector::DistXY(CurrentPosition,Destination) <10 ? EBTNodeResult::Succeeded : EBTNodeResult::Failed;
 	
 }

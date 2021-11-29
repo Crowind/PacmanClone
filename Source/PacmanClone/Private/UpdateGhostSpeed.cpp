@@ -15,7 +15,7 @@ EBTNodeResult::Type UUpdateGhostSpeed::ExecuteTask(UBehaviorTreeComponent& Owner
 	
 	APacmanGameMode* GameMode = Cast<APacmanGameMode> (GetWorld()->GetAuthGameMode());
 
-	if(Ghost->CurrentZone->Tags.Contains(FName("Tunnel")))
+	if( (!Ghost->bOutOfHouse) || Ghost->CurrentZone->Tags.Contains(FName("Tunnel")))
 	{
 		Ghost->SetSpeedModifier(GameMode->GetGhostTunnelSpeed());
 

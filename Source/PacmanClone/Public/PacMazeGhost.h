@@ -33,6 +33,13 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool bOutOfHouse;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int DotsThreshold;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int CurrentDots;
+
+	
 	explicit APacMazeGhost(const FObjectInitializer& ObjectInitializer);
 	
 	
@@ -71,7 +78,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	UPaperFlipbookComponent* GetPaperFlipbookComponent();
-
+	
 	
 	UFUNCTION(BlueprintCallable)
 	void FlipDirection();

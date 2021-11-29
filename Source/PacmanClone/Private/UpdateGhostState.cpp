@@ -15,6 +15,7 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 	auto State = static_cast<EPacGhostState>(OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsEnum(PacGhostStateKeySelector.SelectedKeyName));
 
 	APacMazeGhost* Ghost = Cast<APacMazeGhost>(OwnerComp.GetAIOwner()->GetPawn());
+
 	switch(State)
 	{
 	case Frightened:
@@ -46,7 +47,7 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 		{
 			EPacGhostState NewState = GameMode->IsChasingActive()?Chasing:Scattering;
 
-			if(NewState!=State && Ghost->bOutOfHouse)
+			if(NewState!=State)
 			{
 				Ghost->FlipDirection();
 				//GEngine->AddOnScreenDebugMessage(-1,6,FColor::Orange,FString().Append(Ghost->GetName()).Append(" ").Append(UEnum::GetValueAsString(NewState)));

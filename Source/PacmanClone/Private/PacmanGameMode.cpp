@@ -53,6 +53,14 @@ float APacmanGameMode::GetPlayerSpeed()
 void APacmanGameMode::UpdateEatenDot()
 {
 	lastEatenDotTimestamp= GetWorld()->TimeSeconds;
+	for (TActorIterator<APacMazeGhost> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		if(!ActorItr->bOutOfHouse)
+		{
+			ActorItr->CurrentDots++;
+		}
+	}
+	
 }
 
 APacmanGameMode::APacmanGameMode()
