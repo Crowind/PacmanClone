@@ -53,7 +53,11 @@ public:
 	float FrightPacManEatingSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float FrightGhostSpeed;
-	
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int InkyDotsThreshold;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int KlydeDotsThreshold;
 };
 
 /**
@@ -67,6 +71,11 @@ class PACMANCLONE_API APacmanGameMode : public AGameModeBase
 	float lastPillTimestamp;
 	float lastEatenDotTimestamp;
 	float ghostPoints;
+
+	int PinkyRespawnDotsThreshold = 7;
+	int InkyRespawnDotsThreshold = 17;
+	int KlydeRespawnDotsThreshold = 32;
+	
 public:
 
 	UFUNCTION(BlueprintCallable)
@@ -105,4 +114,8 @@ private:
 
 public:
 	virtual void Tick(float DeltaSeconds) override;
+
+	virtual void ResetLevel() override;
+
+	virtual bool ShouldReset_Implementation(AActor* ActorToReset) override;
 };

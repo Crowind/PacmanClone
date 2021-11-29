@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "UpdateHousePath.generated.h"
+#include "FlipBool.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PACMANCLONE_API UUpdateHousePath : public UBTTaskNode
+class PACMANCLONE_API UFlipBool : public UBTTaskNode
 {
 	GENERATED_BODY()
 
 public:
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FBlackboardKeySelector HouseBoolKey;
-
-	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

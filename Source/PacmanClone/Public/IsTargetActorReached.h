@@ -4,20 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "IsEatenDestinationReached.generated.h"
+#include "IsTargetActorReached.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PACMANCLONE_API UIsEatenDestinationReached : public UBTTaskNode
+class PACMANCLONE_API UIsTargetActorReached : public UBTTaskNode
 {
 	GENERATED_BODY()
 
 public:
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	FBlackboardKeySelector EatenDestinationSelectorKey;
+	FBlackboardKeySelector TargetActorSelectorKey;
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	

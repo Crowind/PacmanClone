@@ -4,6 +4,7 @@
 #include "PacmanGameMode.h"
 
 #include "EngineUtils.h"
+#include "PacmanGameInstance.h"
 #include "PacMazeGhost.h"
 #include "PacMazePawn.h"
 #include "PacPlayerController.h"
@@ -41,7 +42,7 @@ float APacmanGameMode::GetPlayerSpeed()
 	
 	if(GetWorld()->TimeSince(lastEatenDotTimestamp)<0.2)
 	{
-		return LevelDatas[CurrentLevelIndex]->FrightPacManSpeed;
+		return LevelDatas[CurrentLevelIndex]->PacEatingSpeed;
 	}
 
 	return LevelDatas[CurrentLevelIndex]->PacSpeed;
@@ -67,6 +68,9 @@ APacmanGameMode::APacmanGameMode()
 {
 	DefaultPawnClass = APacMazePawn::StaticClass();
 	PlayerControllerClass = APacPlayerController::StaticClass();
+
+	CurrentLevelIndex = Cast<UPacmanGameInstance>(GetGameInstance())->level;
+	CurrentScore = Cast<UPacmanGameInstance>(GetGameInstance())->score;
 	
 
 }
@@ -113,4 +117,14 @@ void APacmanGameMode::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	
+}
+
+void APacmanGameMode::ResetLevel()
+{
+	Super::ResetLevel();
+}
+
+bool APacmanGameMode::ShouldReset_Implementation(AActor* ActorToReset)
+{
+	return Super::ShouldReset_Implementation(ActorToReset);
 }
