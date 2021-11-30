@@ -64,7 +64,6 @@ void UUpdatePath::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory,
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1,5,FColor::Yellow,TEXT("2ss asd asd"));
 			Ghost->FlipDirection();
 		}
 		

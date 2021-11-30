@@ -57,12 +57,14 @@ void APacMazeGhost::SetSteering(bool bCond)
 	bCanSteer= bCond;
 }
 
-void APacMazeGhost::SetDisplayDirection_Implementation(EMazeDirection Direction)
+TEnumAsByte<EMazeDirection> APacMazeGhost::GetDisplayedDirection()
 {
-	if(bCanSteer){
-		Super::SetDisplayDirection_Implementation(Direction);
+	if(bCanSteer || !bOutOfHouse){
+		return Super::GetDisplayedDirection();
 	}
+	return GetMovementDirection();
 }
+
 
 void APacMazeGhost::FlipSteering()
 {

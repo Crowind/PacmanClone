@@ -17,5 +17,6 @@ class PACMANCLONE_API UPacmanGameInstance : public UGameInstance
 public:
 	int level=0;
 	int score=0;
+	int lives = 3;
 	
 };

@@ -91,7 +91,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetSteering(bool bCond);
 
-	virtual void SetDisplayDirection_Implementation(EMazeDirection Direction) override;
+	virtual TEnumAsByte<EMazeDirection> GetDisplayedDirection() override;
+	
 	UFUNCTION(BlueprintCallable)
 	void FlipSteering();
 };

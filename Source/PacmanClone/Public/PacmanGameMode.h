@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PacmanGameInstance.h"
 #include "PacScoreItem.h"
 #include "GameFramework/GameModeBase.h"
 #include "PacmanGameMode.generated.h"
@@ -75,7 +76,7 @@ class PACMANCLONE_API APacmanGameMode : public AGameModeBase
 	int PinkyRespawnDotsThreshold = 7;
 	int InkyRespawnDotsThreshold = 17;
 	int KlydeRespawnDotsThreshold = 32;
-	
+
 public:
 
 	UFUNCTION(BlueprintCallable)
@@ -108,14 +109,26 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 	int CurrentLevelIndex=0;
-private:
+
 	UPROPERTY(VisibleAnywhere)
 	int CurrentScore;
+	UPROPERTY(VisibleAnywhere)
+	int CurrentLives;
 
 public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void ResetLevel() override;
 
+	UFUNCTION(BlueprintCallable)
+	virtual int GetCurrentScore();
+	UFUNCTION(BlueprintCallable)
+	virtual int GetCurrentLives();
+	UFUNCTION(BlueprintCallable)
+	virtual int GetCurrentLevelIndex();
+	
 	virtual bool ShouldReset_Implementation(AActor* ActorToReset) override;
+
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	virtual void InitGameState() override;
 };

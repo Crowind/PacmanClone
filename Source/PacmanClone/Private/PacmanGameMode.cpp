@@ -69,10 +69,6 @@ APacmanGameMode::APacmanGameMode()
 	DefaultPawnClass = APacMazePawn::StaticClass();
 	PlayerControllerClass = APacPlayerController::StaticClass();
 
-	CurrentLevelIndex = Cast<UPacmanGameInstance>(GetGameInstance())->level;
-	CurrentScore = Cast<UPacmanGameInstance>(GetGameInstance())->score;
-	
-
 }
 
 void APacmanGameMode::AddPoints(int points)
@@ -124,7 +120,36 @@ void APacmanGameMode::ResetLevel()
 	Super::ResetLevel();
 }
 
+int APacmanGameMode::GetCurrentScore()
+{
+	return CurrentScore;
+}
+
+int APacmanGameMode::GetCurrentLives()
+{
+	return CurrentLives;
+}
+
+int APacmanGameMode::GetCurrentLevelIndex()
+{
+	return CurrentLevelIndex;
+}
+
 bool APacmanGameMode::ShouldReset_Implementation(AActor* ActorToReset)
 {
 	return Super::ShouldReset_Implementation(ActorToReset);
+}
+
+void APacmanGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	CurrentLevelIndex = Cast<UPacmanGameInstance>(GetGameInstance())->level;
+	CurrentScore = Cast<UPacmanGameInstance>(GetGameInstance())->score;
+	CurrentLives = Cast<UPacmanGameInstance>(GetGameInstance())->lives;
+	
+	Super::InitGame(MapName, Options, ErrorMessage);
+}
+
+void APacmanGameMode::InitGameState()
+{
+	Super::InitGameState();
 }

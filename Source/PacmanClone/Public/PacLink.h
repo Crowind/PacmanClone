@@ -17,6 +17,12 @@ public:
 	void InitMapping();
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool bBlockGhostSteering;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta=(EditCondition= "bBlockGhostSteering"))
+	bool bFlipGhostSteering;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool bFlipPacPersonSteer;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)

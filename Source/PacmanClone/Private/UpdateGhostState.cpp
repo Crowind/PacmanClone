@@ -47,7 +47,7 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 		{
 			EPacGhostState NewState = GameMode->IsChasingActive()?Chasing:Scattering;
 
-			if(NewState!=State)
+			if(NewState!=State && Ghost->bOutOfHouse)
 			{
 				Ghost->FlipDirection();
 				//GEngine->AddOnScreenDebugMessage(-1,6,FColor::Orange,FString().Append(Ghost->GetName()).Append(" ").Append(UEnum::GetValueAsString(NewState)));
