@@ -9,6 +9,18 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/AudioComponent.h"
 
+void UUpdateGhostState::UpdateDefaultBehaviour(UBehaviorTreeComponent& OwnerComp, APacmanGameMode* GameMode, EPacGhostState State, APacMazeGhost* Ghost)
+{
+	EPacGhostState NewState = GameMode->IsChasingActive()?Chasing:Scattering;
+
+	if(NewState!=State && Ghost->bOutOfHouse)
+	{
+		Ghost->FlipDirection();
+	}
+			
+	OwnerComp.GetAIOwner()->GetBlackboardComponent()->SetValueAsEnum(PacGhostStateKeySelector.SelectedKeyName,NewState);
+}
+
 EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	APacmanGameMode* GameMode = Cast<APacmanGameMode> (GetWorld()->GetAuthGameMode());
@@ -35,11 +47,11 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 			if(GetWorld()->TimeSince(LastFrightening)>=GameMode->GetFrightTime())
 			{
 				Ghost->OnExitFrightenedState();
-			}
-			else
-			{
+				UpdateDefaultBehaviour(OwnerComp, GameMode, State, Ghost);
 				break;
 			}
+			break;
+			
 			
 		}
 	case Eaten:
@@ -51,15 +63,7 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 	case Scattering:
 	case Chasing:
 		{
-			EPacGhostState NewState = GameMode->IsChasingActive()?Chasing:Scattering;
-
-			if(NewState!=State && Ghost->bOutOfHouse)
-			{
-				Ghost->FlipDirection();
-				//GEngine->AddOnScreenDebugMessage(-1,6,FColor::Orange,FString().Append(Ghost->GetName()).Append(" ").Append(UEnum::GetValueAsString(NewState)));
-			}
-			
-			OwnerComp.GetAIOwner()->GetBlackboardComponent()->SetValueAsEnum(PacGhostStateKeySelector.SelectedKeyName,NewState);
+			UpdateDefaultBehaviour(OwnerComp, GameMode, State, Ghost);
 			break;
 		}
 	default: break;

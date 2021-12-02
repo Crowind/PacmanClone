@@ -25,13 +25,24 @@ EBTNodeResult::Type UUpdateGhostSpeed::ExecuteTask(UBehaviorTreeComponent& Owner
 	auto State = static_cast<EPacGhostState>(OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsEnum(PacGhostStateKeySelector.SelectedKeyName));
 
 	switch (State) {
-		case Frightened:
+	case Frightened:{
+			Ghost->SetSpeedModifier(GameMode->GetGhostFrightenedSpeed());
+			break;
+	}
 		case FrightenedEnding:
 			{
 				Ghost->SetSpeedModifier(GameMode->GetGhostFrightenedSpeed());
 				break;
 			}
-		case Scattering:
+	case Scattering:{
+			Ghost->SetSpeedModifier(GameMode->GetGhostSpeed());
+			if(Ghost->Tags.Contains(FName("Blinky")))
+			{
+				Ghost->SetSpeedModifier(GameMode->GetBlinkySpeedMultiplier());
+				
+			}
+			break;
+	}
 		case Chasing:
 			{
 				Ghost->SetSpeedModifier(GameMode->GetGhostSpeed());

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PacmanGameMode.h"
 #include "BehaviorTree/BTTaskNode.h"
 #include "UpdateGhostState.generated.h"
 
@@ -20,6 +21,8 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FBlackboardKeySelector FrightenedTimeStampKeySelector;
 
+	void UpdateDefaultBehaviour(UBehaviorTreeComponent& OwnerComp, APacmanGameMode* GameMode, EPacGhostState State,
+	                            APacMazeGhost* Ghost);
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	
 };
