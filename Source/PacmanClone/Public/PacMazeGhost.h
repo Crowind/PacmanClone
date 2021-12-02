@@ -102,6 +102,9 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	void InitGhost(bool respawn);
+	
+	UFUNCTION(BlueprintNativeEvent)
+	void CollectPoints(float points);
 
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable)

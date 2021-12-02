@@ -77,13 +77,15 @@ class PACMANCLONE_API APacmanGameMode : public AGameModeBase
 	int PinkyRespawnDotsThreshold = 7;
 	int InkyRespawnDotsThreshold = 17;
 	int KlydeRespawnDotsThreshold = 32;
+	UPROPERTY()
+	AActor* SpawnedItem;
 
 public:
 
 	UFUNCTION(BlueprintCallable)
 	void PowerPillActivated();
 	UFUNCTION(BlueprintCallable)
-	void GhostCaught();
+	float GhostCaught();
 	UFUNCTION(BlueprintCallable)
 	bool IsPlayerEating() const;
 	UFUNCTION(BlueprintCallable)

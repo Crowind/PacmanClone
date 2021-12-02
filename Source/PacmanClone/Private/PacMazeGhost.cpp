@@ -5,6 +5,7 @@
 
 #include "AIController.h"
 #include "PacLink.h"
+#include "PacmanGameMode.h"
 #include "PacMazeZone.h"
 #include "PacUtilities.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -98,6 +99,10 @@ void APacMazeGhost::FlipSteering()
 	bCanSteer = !bCanSteer;
 }
 
+void APacMazeGhost::CollectPoints_Implementation(float points)
+{
+}
+
 void APacMazeGhost::BeginPlay()
 {
 	Super::BeginPlay();
@@ -108,6 +113,8 @@ void APacMazeGhost::GetEaten()
 {
 	Cast<AAIController>(GetController())->GetBlackboardComponent()->SetValueAsEnum(FName("GhostCurrentState"),EPacGhostState::Eaten);
 	EatenAudioComponent->Play();
+	float points = Cast<APacmanGameMode>(GetWorld()->GetAuthGameMode())->GhostCaught();
+	CollectPoints(points);
 }
 
 void APacMazeGhost::InitGhost_Implementation(bool respawn)

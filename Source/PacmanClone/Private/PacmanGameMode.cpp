@@ -18,15 +18,17 @@ void APacmanGameMode::PowerPillActivated()
 		ActorItr->EnterFrightenedState();
 	}
 	lastPillTimestamp = GetWorld()->TimeSeconds;
-
+	GEngine->AddOnScreenDebugMessage(-1,10,FColor::Red,"sssssss");
 	ghostPoints = 200;
 	
 }
 
-void APacmanGameMode::GhostCaught()
+float APacmanGameMode::GhostCaught()
 {
 	AddPoints(ghostPoints);
+	float OldGhostPoints = ghostPoints;
 	ghostPoints*=2;
+	return OldGhostPoints;
 }
 
 bool APacmanGameMode::IsPlayerEating() const
@@ -107,6 +109,11 @@ float APacmanGameMode::GetBlinkySpeedMultiplier()
 
 void APacmanGameMode::HandleDeath()
 {
+	if(SpawnedItem!=nullptr)
+	{
+		SpawnedItem->Destroy();
+	}
+	
 	if(CurrentLives==0)
 	{
 		auto gameinstance = Cast<UPacmanGameInstance>(GetGameInstance());
@@ -186,12 +193,22 @@ void APacmanGameMode::Tick(float DeltaSeconds)
 
 	if(APacScoreItem::WinItemCount== 0)
 	{
-		Cast<UPacmanGameInstance>(GetGameInstance())->level = CurrentLevelIndex+1;
+		Cast<UPacmanGameInstance>(GetGameInstance())->level = FMath::Max(CurrentLevelIndex+1,LevelDatas.Num()-1) ;
 		Cast<UPacmanGameInstance>(GetGameInstance())->score = CurrentScore;
 		Cast<UPacmanGameInstance>(GetGameInstance())->lives = CurrentLives;
 
 		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 
+	}
+	else if(APacScoreItem::WinItemCount== 274)
+	{
+		SpawnedItem = GetWorld()->SpawnActor(LevelDatas[CurrentLevelIndex]->BonusItem);
+		SpawnedItem->SetActorLocation(FVector(0,70,40));
+	}
+	else if(APacScoreItem::WinItemCount== 174)
+	{
+		SpawnedItem = GetWorld()->SpawnActor(LevelDatas[CurrentLevelIndex]->BonusItem);
+		SpawnedItem->SetActorLocation(FVector(0,70,40));
 	}
 }
 
