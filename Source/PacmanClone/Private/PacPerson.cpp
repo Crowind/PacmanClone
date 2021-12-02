@@ -21,11 +21,12 @@ APacPerson::APacPerson(const FObjectInitializer& ObjectInitializer): APacMazePaw
 	
 }
 
-void APacPerson::PlayDeath()
+void APacPerson::PlayDeath_Implementation()
 {
 	DeathAudioComponent->SetPaused(false);
 	DeathAudioComponent->Play();
 }
+
 
 void APacPerson::Tick(float DeltaSeconds)
 {

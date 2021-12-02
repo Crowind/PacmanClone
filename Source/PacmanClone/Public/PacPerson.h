@@ -17,6 +17,7 @@ class PACMANCLONE_API APacPerson : public APacMazePawn
 
 public:
 	explicit APacPerson(const FObjectInitializer& ObjectInitializer);
+	UFUNCTION(BlueprintNativeEvent)
 	void PlayDeath();
 
 
