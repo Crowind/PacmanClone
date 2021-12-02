@@ -15,6 +15,9 @@ class PACMANCLONE_API APacMazeZone : public AActor
 	GENERATED_BODY()
 
 public:	
+
+	static bool bIsMazeActive;
+
 	// Sets default values for this component's properties
 	APacMazeZone();
 	

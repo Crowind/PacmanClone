@@ -81,7 +81,7 @@ void APacMazePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
-void APacMazePawn::SetDisplayDirection_Implementation(const EMazeDirection Direction)
+void APacMazePawn::SetDisplayDirection(EMazeDirection Direction)
 {
 	this->DisplayedDirection = Direction;
 }
@@ -123,10 +123,10 @@ TEnumAsByte<EMazeDirection> APacMazePawn::GetMovementDirection()
 	return MovementDirection;
 }
 
-void APacMazePawn::SetPacMovementActive(bool active)
+void APacMazePawn::SetPacMovementActive(const bool bActive)
 {
-	bPacMovementEnabled = active;
-	if(!active)
+	bPacMovementEnabled = bActive;
+	if(!bActive)
 	{
 		GetCapsuleComponent()->GetBodyInstance()->bLockYTranslation = true;
 		GetCapsuleComponent()->GetBodyInstance()->bLockXTranslation = true;

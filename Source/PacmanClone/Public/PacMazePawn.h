@@ -57,7 +57,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable)
 	void SetDisplayDirection(EMazeDirection Direction);
 	UFUNCTION(BlueprintCallable)
 	virtual TEnumAsByte<EMazeDirection> GetDisplayedDirection();
@@ -68,7 +68,7 @@ public:
 	TEnumAsByte<EMazeDirection> GetMovementDirection();
 
 	UFUNCTION(BlueprintCallable)
-	void SetPacMovementActive(bool active);
+	void SetPacMovementActive(bool bActive);
 
 	UFUNCTION(BlueprintCallable)
 	bool GetPacMovementActive();

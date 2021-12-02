@@ -35,6 +35,11 @@ EBTNodeResult::Type UUpdateGhostSpeed::ExecuteTask(UBehaviorTreeComponent& Owner
 		case Chasing:
 			{
 				Ghost->SetSpeedModifier(GameMode->GetGhostSpeed());
+				if(Ghost->Tags.Contains(FName("Blinky")))
+				{
+					Ghost->SetSpeedModifier(GameMode->GetBlinkySpeedMultiplier());
+					
+				}
 				break;
 			}
 		case Eaten:

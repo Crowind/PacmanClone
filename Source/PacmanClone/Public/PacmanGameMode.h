@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PacGameManager.h"
 #include "PacmanGameInstance.h"
 #include "PacScoreItem.h"
 #include "GameFramework/GameModeBase.h"
@@ -84,12 +85,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void GhostCaught();
 	UFUNCTION(BlueprintCallable)
+	bool IsPlayerEating() const;
+	UFUNCTION(BlueprintCallable)
 	float GetPlayerSpeed();
 	UFUNCTION(BlueprintCallable)
 	void UpdateEatenDot();
-	
+	UFUNCTION(BlueprintCallable)
+	int BlinkyAngryLevel();
+	UFUNCTION(BlueprintCallable)
+	float GetBlinkySpeedMultiplier();
+	UFUNCTION(BlueprintCallable)
+	void HandleDeath();
+
 	APacmanGameMode();
-//TODO Current Level Index
+	
 	UFUNCTION(BlueprintCallable)
 	void AddPoints(int points);
 	UFUNCTION(BlueprintCallable)
@@ -102,6 +111,10 @@ public:
 	float GetGhostSpeed();
 	UFUNCTION(BlueprintCallable)
 	float GetGhostTunnelSpeed();
+	UFUNCTION(BlueprintCallable)
+	int GetKlydeDotsDefaultThreshold();
+	UFUNCTION(BlueprintCallable)
+	int GetInkyDotsDefaultThreshold();
 	
 private:
 	UPROPERTY(EditAnywhere)
@@ -115,10 +128,14 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	int CurrentLives;
 
-public:
-	virtual void Tick(float DeltaSeconds) override;
+	float startTime;
 
-	virtual void ResetLevel() override;
+public:
+
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	APacGameManager* GameManager;
+	
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable)
 	virtual int GetCurrentScore();
@@ -127,8 +144,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual int GetCurrentLevelIndex();
 	
-	virtual bool ShouldReset_Implementation(AActor* ActorToReset) override;
-
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
-	virtual void InitGameState() override;
+
+	void ResetTime();
+
+	virtual void BeginPlay() override;
+	
 };

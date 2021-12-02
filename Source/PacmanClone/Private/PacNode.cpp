@@ -95,10 +95,12 @@ void APacNode::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	const int HandledPawns = CurrentlyHandledPacPawns.Num();
-	
+
+	TArray<APacMazePawn*> CurrentlyHandledPawnsCopy(CurrentlyHandledPacPawns);
+
 	for(int i = HandledPawns-1; i>=0;i--)
 	{
-		APacMazePawn* PacMazePawn = CurrentlyHandledPacPawns[i];
+		APacMazePawn* PacMazePawn = CurrentlyHandledPawnsCopy[i];
 		if(PacMazePawn== nullptr)
 		{
 			return;

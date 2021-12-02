@@ -7,6 +7,7 @@
 #include "PacmanGameMode.h"
 #include "PacMazeGhost.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/AudioComponent.h"
 
 EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
@@ -41,7 +42,12 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 			}
 			
 		}
-	case Eaten:	
+	case Eaten:
+		{
+			Ghost->EatenAudioComponent->Stop();
+			Ghost->FlipDirection();
+			Ghost->bOutOfHouse=false;
+		}
 	case Scattering:
 	case Chasing:
 		{

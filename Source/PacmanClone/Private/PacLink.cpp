@@ -3,6 +3,7 @@
 
 #include "PacLink.h"
 
+#include "AIController.h"
 #include "DrawDebugHelpers.h"
 #include "PacMazeGhost.h"
 #include "PacMazePawn.h"
@@ -87,7 +88,7 @@ void APacLink::BeginPlay()
 			AActor* Pellet = (bSpawnSpecialPellet && i-1 == PelletsAmount-i)
 				                 ? GetWorld()->SpawnActor(SpecialPellet)
 				                 : GetWorld()->SpawnActor(ScoreSpawnType);
-
+			
 			FVector PelletLocation =FMath::Lerp( Head1->GetTransform().GetLocation(), Head2->GetTransform().GetLocation(),(i)/(PelletsAmount+1));
 			Pellet->SetActorLocation(PelletLocation);
 		}
@@ -164,10 +165,10 @@ void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> ent
 			pacPerson->bCanSteer=true;
 		}
 	}
-	CheckPawnMovement(PacMazePawn);
 	CurrentlyHandledPacPawns.Add(PacMazePawn);
 	PacMazePawn->CurrentZone = this;
 	PacMazePawn->SetPacMovementActive(true);
+	CheckPawnMovement(PacMazePawn);
 
 	TArray<TEnumAsByte<EMazeDirection>> keys;
 	mapping.GetKeys(keys);
@@ -204,9 +205,11 @@ void APacLink::CheckPawnMovement(APacMazePawn* PacMazePawn)
 
 void APacLink::CheckPawnsMovement()
 {
+	TArray<APacMazePawn*> CurrentlyHandledPawnsCopy(CurrentlyHandledPacPawns);
+	
 	for(int i = CurrentlyHandledPacPawns.Num()-1; i>=0;i--)
 	{
-		APacMazePawn* PacMazePawn = CurrentlyHandledPacPawns[i];
+		APacMazePawn* PacMazePawn = CurrentlyHandledPawnsCopy[i];
 		CheckPawnMovement(PacMazePawn);
 		
 	}

@@ -8,6 +8,7 @@
 #include "PacMazeGhost.h"
 #include "PacMazePawn.h"
 #include "PacPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 
 void APacmanGameMode::PowerPillActivated()
@@ -28,11 +29,16 @@ void APacmanGameMode::GhostCaught()
 	ghostPoints*=2;
 }
 
+bool APacmanGameMode::IsPlayerEating() const
+{
+	return GetWorld()->TimeSince(lastEatenDotTimestamp) < 0.2;
+}
+
 float APacmanGameMode::GetPlayerSpeed()
 {
 	if(GetWorld()->TimeSince(lastPillTimestamp)<GetFrightTime())
 	{
-		if(GetWorld()->TimeSince(lastEatenDotTimestamp)<0.2)
+		if(IsPlayerEating())
 		{
 			return LevelDatas[CurrentLevelIndex]->FrightPacManEatingSpeed;
 		}
@@ -40,7 +46,7 @@ float APacmanGameMode::GetPlayerSpeed()
 		
 	}
 	
-	if(GetWorld()->TimeSince(lastEatenDotTimestamp)<0.2)
+	if(IsPlayerEating())
 	{
 		return LevelDatas[CurrentLevelIndex]->PacEatingSpeed;
 	}
@@ -64,11 +70,67 @@ void APacmanGameMode::UpdateEatenDot()
 	
 }
 
+int APacmanGameMode::BlinkyAngryLevel()
+{
+	if(APacScoreItem::WinItemCount<LevelDatas[CurrentLevelIndex]->BlinkySpeedThreshold2)
+	{
+		return 2;
+	}
+	if(APacScoreItem::WinItemCount<LevelDatas[CurrentLevelIndex]->BlinkySpeedThreshold1)
+	{
+		return 1;
+	}
+	
+	return 0;
+}
+
+float APacmanGameMode::GetBlinkySpeedMultiplier()
+{
+	switch (BlinkyAngryLevel())
+	{
+	case 2:
+		{
+			return LevelDatas[CurrentLevelIndex]->BlinkySpeedUpgrade2;
+		}
+	case 1:
+		{
+			return LevelDatas[CurrentLevelIndex]->BlinkySpeedUpgrade1;
+		}
+	default:
+		{
+			return LevelDatas[CurrentLevelIndex]->GhostSpeed;
+		}
+	
+	}
+	
+}
+
+void APacmanGameMode::HandleDeath()
+{
+	if(CurrentLives==0)
+	{
+		auto gameinstance = Cast<UPacmanGameInstance>(GetGameInstance());
+		gameinstance->level=0;
+		gameinstance->lives=3;
+		gameinstance->score=0;
+
+		GameManager->Death(true);
+	}
+	else
+	{
+		GameManager->Death(false);
+		CurrentLives--;
+	}	
+	
+	
+	
+}
+
 APacmanGameMode::APacmanGameMode()
 {
 	DefaultPawnClass = APacMazePawn::StaticClass();
 	PlayerControllerClass = APacPlayerController::StaticClass();
-
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 void APacmanGameMode::AddPoints(int points)
@@ -78,7 +140,7 @@ void APacmanGameMode::AddPoints(int points)
 
 bool APacmanGameMode::IsChasingActive()
 {
-	const float TimeStamp =GetWorld()->TimeSeconds;
+	const float TimeStamp =GetWorld()->TimeSince(startTime);
 	const int CurrentIndex =LevelDatas[CurrentLevelIndex]->ScatterChaseDurations->TimeStamps.IndexOfByPredicate( [&](float t) { return TimeStamp<t || t<0 ;});
 	if(CurrentIndex==INDEX_NONE)
 	{
@@ -108,17 +170,31 @@ float APacmanGameMode::GetGhostTunnelSpeed()
 	return LevelDatas[CurrentLevelIndex]->GhostSpeedTunnel;
 }
 
+int APacmanGameMode::GetKlydeDotsDefaultThreshold()
+{
+	return LevelDatas[CurrentLevelIndex]->KlydeDotsThreshold;
+}
+
+int APacmanGameMode::GetInkyDotsDefaultThreshold()
+{
+	return LevelDatas[CurrentLevelIndex]->InkyDotsThreshold;
+}
+
 void APacmanGameMode::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	
+	if(APacScoreItem::WinItemCount== 0)
+	{
+		Cast<UPacmanGameInstance>(GetGameInstance())->level = CurrentLevelIndex+1;
+		Cast<UPacmanGameInstance>(GetGameInstance())->score = CurrentScore;
+		Cast<UPacmanGameInstance>(GetGameInstance())->lives = CurrentLives;
+
+		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+
+	}
 }
 
-void APacmanGameMode::ResetLevel()
-{
-	Super::ResetLevel();
-}
 
 int APacmanGameMode::GetCurrentScore()
 {
@@ -135,10 +211,6 @@ int APacmanGameMode::GetCurrentLevelIndex()
 	return CurrentLevelIndex;
 }
 
-bool APacmanGameMode::ShouldReset_Implementation(AActor* ActorToReset)
-{
-	return Super::ShouldReset_Implementation(ActorToReset);
-}
 
 void APacmanGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {
@@ -149,7 +221,14 @@ void APacmanGameMode::InitGame(const FString& MapName, const FString& Options, F
 	Super::InitGame(MapName, Options, ErrorMessage);
 }
 
-void APacmanGameMode::InitGameState()
+void APacmanGameMode::ResetTime()
 {
-	Super::InitGameState();
+	startTime = GetWorld()->TimeSeconds;
 }
+
+void APacmanGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+	startTime = AActor::GetWorld()->TimeSeconds;
+}
+

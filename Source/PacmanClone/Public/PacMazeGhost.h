@@ -26,10 +26,13 @@ class PACMANCLONE_API APacMazeGhost : public APacMazePawn
 {
 	GENERATED_BODY()
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	UPaperFlipbookComponent * PaperFlipbookComponent;
 
 public:
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
+	UAudioComponent* EatenAudioComponent;
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool bOutOfHouse;
 
@@ -46,34 +49,35 @@ public:
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	bool bCanSteer = true;
 
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
+	// ReSharper disable once UnrealHeaderToolParserError
 	UPaperFlipbook* FlipbookUp;
 	
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 	UPaperFlipbook* FlipbookLeft;
 
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 	UPaperFlipbook* FlipbookRight;
 	
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 	UPaperFlipbook* FlipbookDown;
 	
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 	UPaperFlipbook* FlipbookFrightened;
 
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 	UPaperFlipbook* FlipbookFrightenedEnding;
 
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 	UPaperFlipbook* FlipbookEatenUp;
 	
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 	UPaperFlipbook* FlipbookEatenLeft;
 
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 	UPaperFlipbook* FlipbookEatenRight;
 	
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 	UPaperFlipbook* FlipbookEatenDown;
 	
 	UFUNCTION(BlueprintCallable)
@@ -95,4 +99,11 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void FlipSteering();
+
+	UFUNCTION(BlueprintNativeEvent)
+	void InitGhost(bool respawn);
+
+	virtual void BeginPlay() override;
+	UFUNCTION(BlueprintCallable)
+	void GetEaten();
 };

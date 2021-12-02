@@ -5,6 +5,8 @@
 
 #include "PacMazeGhost.h"
 
+bool APacMazeZone::bIsMazeActive;
+
 // Sets default values for this component's properties
 APacMazeZone::APacMazeZone()
 {
@@ -40,6 +42,11 @@ void APacMazeZone::BeginPlay()
 void APacMazeZone::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	if(!bIsMazeActive)
+	{
+		return;
+	}
+	
 
 }
 
