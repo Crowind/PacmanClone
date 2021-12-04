@@ -15,13 +15,6 @@ EBTNodeResult::Type UUpdateGhostSpeed::ExecuteTask(UBehaviorTreeComponent& Owner
 	
 	APacmanGameMode* GameMode = Cast<APacmanGameMode> (GetWorld()->GetAuthGameMode());
 
-	if( (!Ghost->bOutOfHouse) || Ghost->CurrentZone->Tags.Contains(FName("Tunnel")))
-	{
-		Ghost->SetSpeedModifier(GameMode->GetGhostTunnelSpeed());
-
-		return EBTNodeResult::Succeeded;
-	}
-	
 	auto State = static_cast<EPacGhostState>(OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsEnum(PacGhostStateKeySelector.SelectedKeyName));
 
 	switch (State) {
@@ -56,9 +49,16 @@ EBTNodeResult::Type UUpdateGhostSpeed::ExecuteTask(UBehaviorTreeComponent& Owner
 		case Eaten:
 			{
 				Ghost->SetSpeedModifier(1);
+				return EBTNodeResult::Succeeded;
 				break;
 			}	
 		default: ;
+	}
+
+	if( (!Ghost->bOutOfHouse) || Ghost->CurrentZone->Tags.Contains(FName("Tunnel")))
+	{
+		Ghost->SetSpeedModifier(GameMode->GetGhostTunnelSpeed());
+		
 	}
 	
 	return EBTNodeResult::Succeeded;

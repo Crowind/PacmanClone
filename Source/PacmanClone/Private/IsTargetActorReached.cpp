@@ -14,6 +14,6 @@ EBTNodeResult::Type UIsTargetActorReached::ExecuteTask(UBehaviorTreeComponent& O
 	TArray<AActor*> OverlappingActors;
 	
 	OwnerComp.GetAIOwner()->GetPawn()->GetOverlappingActors(OverlappingActors);
-	
+
 	return  OverlappingActors.Contains(TargetActor) ? EBTNodeResult::Succeeded : EBTNodeResult::Failed;
 }

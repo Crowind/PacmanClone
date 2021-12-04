@@ -51,13 +51,10 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 				break;
 			}
 			break;
-			
-			
 		}
 	case Eaten:
 		{
 			Ghost->EatenAudioComponent->Stop();
-			Ghost->FlipDirection();
 			Ghost->bOutOfHouse=false;
 		}
 	case Scattering:
@@ -68,6 +65,7 @@ EBTNodeResult::Type UUpdateGhostState::ExecuteTask(UBehaviorTreeComponent& Owner
 		}
 	default: break;
 	}
+	
 	return EBTNodeResult::Succeeded;
 	
 }

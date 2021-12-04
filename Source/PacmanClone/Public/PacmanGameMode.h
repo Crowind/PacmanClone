@@ -77,7 +77,7 @@ class PACMANCLONE_API APacmanGameMode : public AGameModeBase
 	int PinkyRespawnDotsThreshold = 7;
 	int InkyRespawnDotsThreshold = 17;
 	int KlydeRespawnDotsThreshold = 32;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	AActor* SpawnedItem;
 
 public:

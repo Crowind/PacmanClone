@@ -53,7 +53,7 @@ void APacPerson::Tick(float DeltaSeconds)
 		{
 			continue;
 		}
-		EPacGhostState state = static_cast<EPacGhostState>(aiController->GetBlackboardComponent()->GetValueAsEnum(FName("GhostCurrentState")));
+		const EPacGhostState state = static_cast<EPacGhostState>(aiController->GetBlackboardComponent()->GetValueAsEnum(FName("GhostCurrentState")));
 
 		if(state == Chasing || state == Scattering)
 		{

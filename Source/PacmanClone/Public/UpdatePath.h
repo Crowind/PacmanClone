@@ -20,6 +20,9 @@ public:
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FBlackboardKeySelector DestinationKeySelector;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool bCanFlip;
 	
 
 protected:

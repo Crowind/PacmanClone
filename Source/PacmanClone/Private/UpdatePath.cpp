@@ -34,22 +34,22 @@ void UUpdatePath::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory,
 
 		TSortedMap< float, TEnumAsByte<EMazeDirection>> CostsToDirectionsMap;
 		
-		if(Opposite(Ghost->GetMovementDirection())!= Up && ApproachingNode->UpLink!=nullptr)
+		if( (bCanFlip ||Opposite(Ghost->GetMovementDirection())!= Up) && ApproachingNode->UpLink!=nullptr)
 		{
 			const float Cost = FVector::DistXY(ApproachingNode->GetTransform().GetLocation() + 30 * MazeDirectionToVector(Up), Destination);
 			CostsToDirectionsMap.Add(Cost,Up);
 		}
-		if(Opposite(Ghost->GetMovementDirection())!= Left && ApproachingNode->LeftLink!=nullptr)
+		if( (bCanFlip ||Opposite(Ghost->GetMovementDirection())!= Left) && ApproachingNode->LeftLink!=nullptr)
 		{
 			const float Cost = FVector::DistXY(ApproachingNode->GetTransform().GetLocation() + 30 * MazeDirectionToVector(Left), Destination);
 			CostsToDirectionsMap.Add(Cost,Left);
 		}
-		if(Opposite(Ghost->GetMovementDirection())!= Right && ApproachingNode->RightLink!=nullptr)
+		if( (bCanFlip ||Opposite(Ghost->GetMovementDirection())!= Right) && ApproachingNode->RightLink!=nullptr)
 		{
 			const float Cost = FVector::DistXY(ApproachingNode->GetTransform().GetLocation() + 30 * MazeDirectionToVector(Right), Destination);
 			CostsToDirectionsMap.Add(Cost,Right);
 		}
-		if(Opposite(Ghost->GetMovementDirection())!= Down && ApproachingNode->BottomLink!=nullptr)
+		if( (bCanFlip ||Opposite(Ghost->GetMovementDirection())!= Down) && ApproachingNode->BottomLink!=nullptr)
 		{
 			const float Cost = FVector::DistXY(ApproachingNode->GetTransform().GetLocation() + 30 * MazeDirectionToVector(Down), Destination);
 			CostsToDirectionsMap.Add(Cost,Down);
