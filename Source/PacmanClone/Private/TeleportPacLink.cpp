@@ -9,7 +9,13 @@ void ATeleportPacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirect
 	//CurrentlyHandledPacPawns.Remove(PacMazePawn);
 	GEngine->AddOnScreenDebugMessage(-1,5,FColor::Emerald,TEXT("Teleport"));
 	PacMazePawn->SetPacMovementActive(true);
-	mapping[EntranceDirection]->Assign(PacMazePawn);
+
+	if(mapping.Contains(EntranceDirection))
+	{
+		mapping[EntranceDirection]->Assign(PacMazePawn);
+		
+	}
+	
 	
 }
 

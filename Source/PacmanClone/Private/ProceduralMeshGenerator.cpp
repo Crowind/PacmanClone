@@ -96,12 +96,8 @@ void AProceduralMeshGenerator::CreateVerticesAndTriangles(APacNode* PacNode)
 	if(PacNode->BottomLink)
 	{
 		ATeleportPacLink* Teleport = Cast<ATeleportPacLink>(PacNode->BottomLink);
-
-		if(PacNode->BottomLink->mapping.Contains(Down))
-		{
-			APacMazeZone* PacZone = PacNode->BottomLink->mapping[Down];
-			
-		APacNode* Node = Cast<APacNode>(PacZone);
+		
+		APacNode* Node = Cast<APacNode>(PacNode->BottomLink->mapping[Down]);
 			if(Teleport==nullptr){
 			
 				if(!VisitedNodes.Contains(Node))
@@ -118,7 +114,7 @@ void AProceduralMeshGenerator::CreateVerticesAndTriangles(APacNode* PacNode)
 					Node->Vertex_NE.Index,
 					PacNode->Vertex_SE.Index
 				});
-			}
+			
 		}
 		
 	}
@@ -167,11 +163,21 @@ void AProceduralMeshGenerator::CreateVerticesAndTriangles(APacNode* PacNode)
 	
 }
 
+void AProceduralMeshGenerator::DataIsReady_Implementation()
+{
+}
+
+void AProceduralMeshGenerator::ComputeData()
+{
+	CreateVerticesAndTriangles(StartPacNode);
+
+	DataIsReady();
+}
+
 // Called when the game starts or when spawned
 void AProceduralMeshGenerator::BeginPlay()
 {
 
-	CreateVerticesAndTriangles(StartPacNode);
 	
 	Super::BeginPlay();
 }

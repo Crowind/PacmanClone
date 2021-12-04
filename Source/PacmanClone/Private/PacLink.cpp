@@ -10,7 +10,6 @@
 #include "PacNode.h"
 #include "PacPerson.h"
 #include "PacUtilities.h"
-#include "GameFramework/PawnMovementComponent.h"
 
 // Sets default values
 APacLink::APacLink()
@@ -24,6 +23,7 @@ APacLink::APacLink()
 
 void APacLink::InitMapping()
 {
+	mapping.Empty();
 	if(Head1)
 	{
 		const auto Node1 = Cast<APacNode>(Head1);
@@ -78,8 +78,6 @@ void APacLink::BeginPlay()
 	Super::BeginPlay();
 
 	Cost = FVector::DistXY(Head1->GetTransform().GetLocation(),Head2->GetTransform().GetLocation());
-
-	InitMapping();
 	
 	if(bSpawnPellets)
 	{
@@ -170,12 +168,13 @@ void APacLink::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> ent
 	PacMazePawn->SetPacMovementActive(true);
 	CheckPawnMovement(PacMazePawn);
 
-	TArray<TEnumAsByte<EMazeDirection>> keys;
-	mapping.GetKeys(keys);
-
-	const FVector Entrance = mapping[Opposite(entranceDirection)]->GetTransform().GetLocation(); 
-	//
-	PacMazePawn->SetActorLocation(Entrance);
+	if( mapping.Contains(Opposite(entranceDirection)))
+	{
+		const FVector Entrance = mapping[Opposite(entranceDirection)]->GetTransform().GetLocation(); 
+		
+		PacMazePawn->SetActorLocation(Entrance);
+		
+	}
 };
 
 void APacLink::CheckPawnMovement(APacMazePawn* PacMazePawn)

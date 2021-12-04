@@ -62,6 +62,10 @@ protected:
 
 public:
 	void CreateVerticesAndTriangles(APacNode* PacNode);
+	UFUNCTION(BlueprintNativeEvent)
+	void DataIsReady();
+	UFUNCTION(BlueprintCallable)
+	void ComputeData();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	

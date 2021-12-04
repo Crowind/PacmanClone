@@ -8,6 +8,7 @@
 #include "PacMazeGhost.h"
 #include "PacMazePawn.h"
 #include "PacPlayerController.h"
+#include "ProceduralMeshGenerator.h"
 #include "VictoryFeedback.h"
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -256,5 +257,6 @@ void APacmanGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	startTime = AActor::GetWorld()->TimeSeconds;
+
 }
 

@@ -28,7 +28,7 @@ void UUpdatePath::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory,
 
 	APacLink* CurrentPacLink = Cast<APacLink>(Ghost->CurrentZone);
 
-	if(CurrentPacLink)
+	if(CurrentPacLink && CurrentPacLink->mapping.Contains(Ghost->GetMovementDirection()))
 	{
 		APacNode* ApproachingNode = static_cast<APacNode*> (CurrentPacLink->mapping[Ghost->GetMovementDirection()]);
 

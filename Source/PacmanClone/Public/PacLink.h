@@ -14,6 +14,7 @@ class PACMANCLONE_API APacLink : public APacMazeZone
 public:	
 	// Sets default values for this actor's properties
 	APacLink();
+	UFUNCTION(BlueprintCallable)
 	void InitMapping();
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
@@ -37,7 +38,7 @@ public:
 	UPROPERTY(Category="PacMazeZone",EditAnywhere,BlueprintReadWrite, meta=(EditCondition ="BSpawnSpecialPellet"))
 	TSubclassOf<APacScoreItem> SpecialPellet;
 	
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	TMap<TEnumAsByte<EMazeDirection>,APacMazeZone*> mapping;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	float Cost;
