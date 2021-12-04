@@ -53,7 +53,7 @@ public:
 
 	virtual void DrawGizmos() override;
 
-	virtual void Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection);
+	virtual void Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection) override;
 	void CheckPawnMovement(APacMazePawn* PacMazePawn);
 
 	UFUNCTION(BlueprintCallable)

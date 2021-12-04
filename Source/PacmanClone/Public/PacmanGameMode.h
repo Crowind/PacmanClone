@@ -79,6 +79,7 @@ class PACMANCLONE_API APacmanGameMode : public AGameModeBase
 	int KlydeRespawnDotsThreshold = 32;
 	UPROPERTY(VisibleAnywhere)
 	AActor* SpawnedItem;
+	FTimerHandle VictoryFanfareHandle;
 
 public:
 
@@ -117,7 +118,8 @@ public:
 	int GetKlydeDotsDefaultThreshold();
 	UFUNCTION(BlueprintCallable)
 	int GetInkyDotsDefaultThreshold();
-	
+	void OpenNextLevel() const;
+
 private:
 	UPROPERTY(EditAnywhere)
 	TArray<ULevelData*> LevelDatas;

@@ -8,6 +8,8 @@
 #include "PacMazeGhost.h"
 #include "PacMazePawn.h"
 #include "PacPlayerController.h"
+#include "VictoryFeedback.h"
+#include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -186,17 +188,25 @@ int APacmanGameMode::GetInkyDotsDefaultThreshold()
 	return LevelDatas[CurrentLevelIndex]->InkyDotsThreshold;
 }
 
+void APacmanGameMode::OpenNextLevel() const
+{
+	Cast<UPacmanGameInstance>(GetGameInstance())->level = FMath::Min(CurrentLevelIndex+1,LevelDatas.Num()-1) ;
+	Cast<UPacmanGameInstance>(GetGameInstance())->score = CurrentScore;
+	Cast<UPacmanGameInstance>(GetGameInstance())->lives = CurrentLives;
+	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+}
+
 void APacmanGameMode::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if(APacScoreItem::WinItemCount== 0)
+	if(APacScoreItem::WinItemCount== 0 && ! GetWorldTimerManager().IsTimerActive(VictoryFanfareHandle))
 	{
-		Cast<UPacmanGameInstance>(GetGameInstance())->level = FMath::Min(CurrentLevelIndex+1,LevelDatas.Num()-1) ;
-		Cast<UPacmanGameInstance>(GetGameInstance())->score = CurrentScore;
-		Cast<UPacmanGameInstance>(GetGameInstance())->lives = CurrentLives;
+		AVictoryFeedback* VictoryFeedback = Cast<AVictoryFeedback>(UGameplayStatics::GetActorOfClass(GetWorld(),AVictoryFeedback::StaticClass()));
+		VictoryFeedback->Victory();
+		GameManager->StopMaze();
+		GetWorldTimerManager().SetTimer(VictoryFanfareHandle, this, &APacmanGameMode::OpenNextLevel,VictoryFeedback->VictoryAudioComponent->Sound->Duration , false,VictoryFeedback->VictoryAudioComponent->Sound->Duration );
 
-		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 
 	}
 	else if(APacScoreItem::WinItemCount== 274 && SpawnedItem==nullptr)

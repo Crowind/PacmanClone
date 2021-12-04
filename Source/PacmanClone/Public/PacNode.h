@@ -58,9 +58,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
 	void DrawLinkConnection(APacLink* Link,FVector AlternateDirection);
-
-	
-	virtual void Assign(APacMazePawn* PacMazePawn) override;
 	
 	virtual void DrawGizmos() override;
 

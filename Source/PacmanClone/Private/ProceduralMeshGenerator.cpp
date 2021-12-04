@@ -97,23 +97,28 @@ void AProceduralMeshGenerator::CreateVerticesAndTriangles(APacNode* PacNode)
 	{
 		ATeleportPacLink* Teleport = Cast<ATeleportPacLink>(PacNode->BottomLink);
 
-		APacNode* Node = Cast<APacNode>(PacNode->BottomLink->mapping[Down]);
-		if(Teleport==nullptr){
+		if(PacNode->BottomLink->mapping.Contains(Down))
+		{
+			APacMazeZone* PacZone = PacNode->BottomLink->mapping[Down];
 			
-			if(!VisitedNodes.Contains(Node))
-			{
-				CreateVerticesAndTriangles(Node);
+		APacNode* Node = Cast<APacNode>(PacZone);
+			if(Teleport==nullptr){
+			
+				if(!VisitedNodes.Contains(Node))
+				{
+					CreateVerticesAndTriangles(Node);
+				}
+				Triangles2.Append({
+					PacNode->Vertex_SW.Index,
+					Node->Vertex_NW.Index,
+					PacNode->Vertex_SE.Index
+				});
+				Triangles2.Append({
+					Node->Vertex_NW.Index,
+					Node->Vertex_NE.Index,
+					PacNode->Vertex_SE.Index
+				});
 			}
-			Triangles2.Append({
-				PacNode->Vertex_SW.Index,
-				Node->Vertex_NW.Index,
-				PacNode->Vertex_SE.Index
-			});
-			Triangles2.Append({
-				Node->Vertex_NW.Index,
-				Node->Vertex_NE.Index,
-				PacNode->Vertex_SE.Index
-			});
 		}
 		
 	}

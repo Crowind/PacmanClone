@@ -135,11 +135,6 @@ void APacNode::DrawLinkConnection( APacLink* Link, FVector AlternateDirection)
 	}
 }
 
-void APacNode::Assign(APacMazePawn* PacMazePawn)
-{
-	Super::Assign(PacMazePawn);
-	
-}
 
 void APacNode::DrawGizmos()
 {

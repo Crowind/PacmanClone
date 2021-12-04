@@ -32,8 +32,9 @@ public:
 	TArray<APacMazePawn *> CurrentlyHandledPacPawns; 
 
 	virtual void DrawGizmos();
+
 	UFUNCTION(BlueprintCallable)
-	virtual void Assign(APacMazePawn* PacMazePawn);
+	virtual void Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection = Down);
 
 protected:
 	// Called when the game starts

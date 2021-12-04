@@ -21,7 +21,7 @@ void APacMazeZone::DrawGizmos()
 {
 }
 
-void APacMazeZone::Assign(APacMazePawn* PacMazePawn)
+void APacMazeZone::Assign(APacMazePawn* PacMazePawn, TEnumAsByte<EMazeDirection> entranceDirection)
 {
 	
 	PacMazePawn->CurrentZone = this;
